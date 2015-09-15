@@ -1,0 +1,95 @@
+#top level collections etc...
+results = query "select coll.name, coll.id, coll.guid from #{repo_name}.dovcollection coll where coll.parentguid = '#{parent_guid}'"
+results.each do |line|
+  return_items = return_items.merge( { line[2].to_sym => { :name => line[0], :id => line[1], :guid => line[2] }} )
+end
+
+#surface
+results = query "select coll.name, coll.id, coll.guid from #{repo_name}.DOVREGULARHEIGHTSURFACE coll where coll.parentguid = '#{parent_guid}'"
+results.each do |line|
+  return_items = return_items.merge( { line[2].to_sym => {:name => line[0], :id => line[1], :guid => line[2] }} )
+end
+
+#polylineset
+results = query "select name, id, guid from #{repo_name}.dovpolylineset where parentguid = '#{parent_guid}'"
+results.each do |line|
+  return_items = return_items.merge( { line[2].to_sym => { :name => line[0], :id => line[1], :guid => line[2] }} )
+end
+
+########### Interp Stuff ########################
+#interp collection
+results = query "select coll.name, coll.id, guid from #{repo_name}.dovinterpcollection coll where parentguid = '#{parent_guid}'"
+results.each do |line|
+  return_items = return_items.merge( { line[2].to_sym => {  :name => line[0],:id => line[1], :guid => line[2] }} )
+end
+
+#horizon interp
+results = query "select coll.name, coll.id, guid from #{repo_name}.dovhorizoninterp coll where parentguid = '#{parent_guid}'"
+results.each do |line|
+  return_items = return_items.merge( { line[2].to_sym => { :name => line[0], :id => line[1], :guid => line[2] }} )
+end
+
+#2d
+results = query "select coll.name, coll.id, guid from #{repo_name}.dovhorizoninterp2d coll where parentguid = '#{parent_guid}'"
+results.each do |line|
+  return_items = return_items.merge( { line[2].to_sym => { :name => line[0], :id => line[1], :guid => line[2] }} )
+end
+
+#3d
+results = query "select coll.name, coll.id, guid from #{repo_name}.dovhorizoninterp3d coll where parentguid = '#{parent_guid}'"
+results.each do |line|
+  return_items = return_items.merge( { line[2].to_sym => { :name => line[0], :id => line[1], :guid => line[2] }} )
+end
+
+#fault interp
+results = query "select coll.name, coll.id, guid from #{repo_name}.dovfaultinterpretation coll where parentguid = '#{parent_guid}'"
+results.each do |line|
+  return_items = return_items.merge( { line[2].to_sym => { :name => line[0], :id => line[1], :guid => line[2] }} )
+end
+######### Seismic Stuff #####################
+#survey
+results = query "select coll.name, coll.id, guid from #{repo_name}.dovsurveycollection coll where coll.parentguid = '#{parent_guid}'"
+results.each do |line|
+  return_items = return_items.merge( { line[2].to_sym => { :name => line[0], :id => line[1], :guid => line[2] }} )
+end
+
+#seismic folder
+results = query "select coll.name, coll.id, guid from #{repo_name}.dovseismicfolder coll where coll.parentguid = '#{parent_guid}'"
+results.each do |line|
+  return_items = return_items.merge( { line[2].to_sym => { :name => line[0], :id => line[1], :guid => line[2] }} )
+end
+
+#seismic 2d coll
+results = query "select coll.name, coll.id, guid from #{repo_name}.dovseismic2dcollection coll where coll.parentguid = '#{parent_guid}'"
+results.each do |line|
+  return_items = return_items.merge( { line[2].to_sym => { :name => line[0], :id => line[1], :guid => line[2] }} )
+end
+
+#seismic 3d coll
+results = query "select coll.name, coll.id, guid from #{repo_name}.dovseismic3dcollection coll where coll.parentguid = '#{parent_guid}'"
+results.each do |line|
+  return_items = return_items.merge( { line[2].to_sym => { :name => line[0], :id => line[1], :guid => line[2] }} )
+end
+
+#seismic cube
+results = query "select coll.name, coll.id, guid from #{repo_name}.dovseismiccube coll where coll.parentguid = '#{parent_guid}'"
+results.each do |line|
+  return_items = return_items.merge( { line[2].to_sym => { :name => line[0], :id => line[1], :guid => line[2] }} )
+end
+
+####################### Wells stuff #############################
+#borehole collection
+results = query "select coll.name, coll.id, guid from #{repo_name}.dovboreholecollection coll where coll.parentguid = '#{parent_guid}'"
+results.each do |line|
+  return_items = return_items.merge( { line[2].to_sym => { :name => line[0], :id => line[1], :guid => line[2] }} )
+end
+
+results = query "select coll.name, coll.id, guid from #{repo_name}.dovborehole coll where coll.parentguid = '#{parent_guid}'"
+results.each do |line|
+  return_items = return_items.merge( { line[2].to_sym => { :name => line[0], :id => line[1], :guid => line[2] }} )
+end
+
+results = query "select coll.name, coll.id, guid from #{repo_name}.dovwelllog coll where coll.parentguid = '#{parent_guid}'"
+results.each do |line|
+  return_items = return_items.merge( { line[2].to_sym => { :name => line[0], :id => line[1], :guid => line[2] }} )
+end

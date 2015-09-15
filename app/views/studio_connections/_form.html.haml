@@ -1,0 +1,24 @@
+= form_for @connection, {:html => { :class => 'form-horizontal'}} do |c|
+  .form-group
+    = c.label :username, :class => 'col-sm-2 control-label'
+    .col-sm-10
+      = c.text_field :username, :class => 'form-control'
+  .form-group
+    = c.label :password, :class => 'col-sm-2 control-label'
+    .col-sm-10
+      = c.password_field :password, :class => 'form-control'
+  .form-group
+    = c.label :oracle_host, :class => 'col-sm-2 control-label'
+    .col-sm-10
+      = c.text_field :oracle_host, :class => 'form-control'
+  .form-group
+    = c.label :oracle_instance, :class => 'col-sm-2 control-label'
+    .col-sm-10
+      = c.text_field :oracle_instance, :class => 'form-control'
+  .form-group
+    = c.label :port, :class => 'col-sm-2 control-label'
+    .col-sm-10
+      = c.text_field :port, :class => 'form-control', :placeholder => "1521"
+  .form-group
+    .col-sm-10.col-sm-offset-2
+      = c.submit "Submit", :class => 'btn btn-primary'

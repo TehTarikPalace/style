@@ -1,0 +1,20 @@
+.col-sm-12
+  %h1.page-header #{ params[:path].split("/").last}
+  %p
+    #{link_to params[:repo_name],  studio_connection_show_repo_path(params[:studio_connection_id], params[:repo_name])}
+    > #{params[:path]}
+.col-sm-12
+  %h2.page-header Contents
+  %table.table
+    %thead
+      %tr
+        %th Object
+        %th Updated
+        %th By
+    %tbody#repo-content
+      %tr#loading-content
+        %td
+          %i.fa.fa-cog.fa-spin
+          Loading Content...
+.col-sm-12
+  %h2.page-header History

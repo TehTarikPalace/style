@@ -1,0 +1,16 @@
+.col-sm-12
+  %h1.page-header Studio Connection
+  #repository-list{ :data => {:'repo-id' => @connection.id }}
+    %table.table
+      %thead
+        %tr
+          %th Repository Name
+          %th Version
+          %th Modify Date
+          %th CRS
+          %th Owner
+      %tbody
+        %tr#loading-repo
+          %td{ :colspan => 5}
+            Loading Repositories
+            %i.fa.fa-cog.fa-spin

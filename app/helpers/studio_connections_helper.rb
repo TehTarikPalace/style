@@ -1,0 +1,2 @@
+module StudioConnectionsHelper
+end

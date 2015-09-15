@@ -1,0 +1,14 @@
+.col-sm-10
+  %h1.page-header #{params[:repo_name]}
+  %p
+  %table.table
+    %thead
+      %tr
+        %th Object
+        %th Updated
+        %th By
+    %tbody#repo-content
+      %tr#loading-content
+        %td
+          %i.fa.fa-cog.fa-spin
+          Loading Content...
