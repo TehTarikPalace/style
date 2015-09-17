@@ -2,9 +2,15 @@
   - @content.each do |key,value|
     %tr
       %td #{link_to value[:name], "/studio_connections/#{params[:studio_connection_id]}/repositories/#{params[:repo_name]}/#{value[:name]}.html?guid=#{value[:guid]}"}
-- else
-  - @content.each do |key,value|
-    %tr
-      %td #{link_to value[:name], "/studio_connections/#{params[:studio_connection_id]}/repositories/#{params[:repo_name]}#{params[:path]}/#{value[:name]}.html?guid=#{value[:guid]}"}
-      %td #{ value[:object_update_date]}
+      %td #{ time_ago_in_words(value[:object_update_date])}
       %td #{ value[:object_update_user]}
+- else
+  - if @content.empty? then
+    %tr
+      %td{ :colspan => 3 } No child detected
+  - else
+    - @content.each do |key,value|
+      %tr
+        %td #{link_to value[:name], "/studio_connections/#{params[:studio_connection_id]}/repositories/#{params[:repo_name]}#{params[:path]}/#{value[:name]}.html?guid=#{value[:guid]}"}
+        %td #{ time_ago_in_words(value[:object_update_date])}
+        %td #{ value[:object_update_user]}

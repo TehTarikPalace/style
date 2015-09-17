@@ -1,17 +1,9 @@
-%table.table
-  %thead
-    %tr
-      %th Connection
-  %tbody
-    - if connections.empty? then
-      %tr
-        %td No Connections
-    - else
-      - connections.each do |connection|
-        %tr
-          %td
-            %a{ :href => studio_connection_path(connection)}
-              #{connection.username}@//#{connection.oracle_host }/#{connection.oracle_instance}
-    %tr
-      %td
-        %a.btn.btn-primary{ :href => new_studio_connection_path} New Connection
+- if connections.empty? then
+  %ul.list-group
+    %li.list-group-item No Connections
+- else
+  %ul.list-group
+    - connections.each do |connection|
+      %li.list-group-item
+        %a{ :href => studio_connection_path(connection)}
+          #{connection.username}@//#{connection.oracle_host }/#{connection.oracle_instance}

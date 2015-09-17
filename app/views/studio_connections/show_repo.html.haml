@@ -1,12 +1,15 @@
-.col-sm-10
+- content_for :head do
+  = "- #{params[:repo_name]}"
+
+.col-sm-12
   %h1.page-header #{params[:repo_name]}
   %p
   %table.table
     %thead
       %tr
-        %th Object
-        %th Updated
-        %th By
+        %th.col-sm-8 Object
+        %th.col-sm-2 Updated
+        %th.col-sm-2 By
     %tbody#repo-content
       %tr#loading-content
         %td

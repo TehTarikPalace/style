@@ -1,0 +1,9 @@
+- if @history.empty? then
+  %tr
+    %td{ :colspan => 3 } No history detected
+- else
+  - @history.each_pair do |key,value|
+    %tr
+      %td #{value[:endtime]}
+      %td #{value[:operation]}
+      %td #{value[:username]}

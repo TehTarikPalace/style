@@ -10,7 +10,12 @@ Rails.application.routes.draw do
     get 'repositories/:repo_name' => "studio_connections#show_repo", :as => "show_repo"
     get 'repositories/:repo_name:path' =>"studio_connections#browse_repo",
       :as => "browse_repo", :constraints => { :path => /\/.+(?=\.html\z|\.template\z)/ }
+    get 'history/:repo_name/:guid' => "studio_connections#history", :as => "object_history"
+    get 'object/:repo_name/:guid' => "studio_connections#object_dump", :as => "object_browse"
   end
+
+  get 'settings' => "welcome#settings"
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

@@ -14,7 +14,13 @@ class StudioConnection < ActiveRecord::Base
     result = Array.new
 
     while r = cursor.fetch
-      result << r
+      coll_hash = Hash.new
+      index = 0
+      r.each do |coll|
+        coll_hash = coll_hash.merge({ cursor.column_metadata[index].name.to_sym => coll })
+        index += 1
+      end
+      result << coll_hash
     end
     cursor.close
     oracle.logoff
@@ -34,8 +40,8 @@ class StudioConnection < ActiveRecord::Base
           where parent_guid is null"
         results.each do |line|
           return_items = return_items.merge( {
-            line[2].to_sym => { :name => line[0], :id => line[1], :guid => line[2],
-              :object_update_date => line[3], :object_update_user => line[4]
+            line[:GUID].to_sym => { :name => line[:NAME], :id => line[:ID], :guid => line[:GUID],
+              :object_update_date => line[:OBJECT_UPDATE_DATE], :object_update_user => line[:OBJECT_UPDATE_USER]
             }
           })
         end
@@ -43,10 +49,11 @@ class StudioConnection < ActiveRecord::Base
         #path is given, need to traverse and find it to find the guid
         if parent_guid != 0 then
           #guid is given, makes the job a lot easier
-          Rails.logger.info "get stuff for guid #{parent_guid}"
+          #Rails.logger.info "get stuff for guid #{parent_guid}"
           return_items = list_obj repo_name, parent_guid
         else
           Rails.logger.info "can't find guid, need to traverse"
+          parent_guid = get_guid(repo_name, path)
         end
       end
 
@@ -62,7 +69,7 @@ class StudioConnection < ActiveRecord::Base
     end
 
     results = query "select id from #{repo_name}.dbx_object where guid = '#{object_guid}'"
-    object_id = results.first[0]
+    object_id = results.first[:ID]
     results = query "select guid, username, id, operation, endtime, insert_user
       from #{repo_name}.dovhistoryentry
       where object_id = #{object_id}
@@ -70,7 +77,8 @@ class StudioConnection < ActiveRecord::Base
       "
     results.each do |line|
       return_items = return_items.merge( {
-        line[0].to_sym => { :username => line[1], :id => line[2], :operation => line[3], :endtime => line[4] }
+        line[:GUID].to_sym => { :username => line[:USERNAME], :id => line[:ID], :operation => line[:OPERATION],
+          :endtime => line[:ENDTIME] }
       } )
     end
 
@@ -90,6 +98,17 @@ class StudioConnection < ActiveRecord::Base
       end
   end
 
+  #show info dump based on guid
+  def get_object_dump repo_name, guid
+    entity_result = query("select entity_id, entity_tbl from #{repo_name}.dbx_object where guid = '#{guid}'").first
+    if entity_result.nil? then
+      return nil
+    else
+      result = query "select * from #{repo_name}.#{entity_result[:ENTITY_TBL]} where id = #{entity_result[:ENTITY_ID]}"
+      return result.first
+    end
+  end
+
   private
 
   # returns a hash of :collection_guid => {:collection_name => name, :collection_property => value}
@@ -102,8 +121,9 @@ class StudioConnection < ActiveRecord::Base
       from #{repo_name}.dbx_object coll where coll.parent_guid = '#{parent_guid}'"
     results.each do |line|
       return_items = return_items.merge({
-        line[2].to_sym => {
-          :name => line[0], :id => line[1], :guid => line[2], :object_update_date => line[3], :object_update_user => line[4] }
+        line[:GUID].to_sym => {
+          :name => line[:NAME], :id => line[:ID], :guid => line[:GUID], :object_update_date => line[:OBJECT_UPDATE_DATE],
+          :object_update_user => line[:OBJECT_UPDATE_USER] }
       })
     end
 

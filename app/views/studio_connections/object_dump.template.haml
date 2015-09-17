@@ -1,0 +1,10 @@
+%table.table
+  %thead
+    %tr
+      %th Property
+      %th Value
+  %tbody
+    - @object.each_pair do |key,value|
+      %tr
+        %td #{ key }
+        %td #{ value.class == String ? simple_format(value) : value }

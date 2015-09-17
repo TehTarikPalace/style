@@ -1,0 +1,10 @@
+- if connections.empty? then
+  %ul.list-group
+    %li.list-group-item No Connections
+- else
+  %ul.list-group
+    - connections.each do |connection|
+      %li.list-group-item
+        %a{ :href => edit_studio_connection_path(connection)}
+          %i.fa.fa-cog
+        #{connection.username}@//#{connection.oracle_host }:#{connection.port}/#{connection.oracle_instance}

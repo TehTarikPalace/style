@@ -1,7 +1,7 @@
 - @repositories.each do |repo|
   %tr
-    %td #{ link_to repo[0], studio_connection_show_repo_path(params[:studio_connection_id], repo.first) }
-    %td #{ repo[1] }
-    %td #{ repo[4]}
-    %td #{ repo[5]}
-    %td #{ repo[2]}
+    %td #{ link_to repo[:PROJECT], studio_connection_show_repo_path(params[:studio_connection_id], repo[:PROJECT]) }
+    %td #{ repo[:MODEL_VERSION] }
+    %td #{ repo[:MODIFY_DATE]}
+    %td #{ repo[:COORDINATE_SYSTEM]}
+    %td #{ repo[:OWNER]}

@@ -23,8 +23,17 @@ StudioConnectionsController.prototype.show_repo = function(){
 };
 
 StudioConnectionsController.prototype.browse_repo = function(){
-  
+
   $.get(this.params['content_path'], null, function(data){
       $('#repo-content').empty().append(data);
   });
+
+  $.get(this.params['history_path'], null, function(data){
+    $('#history-content').empty().append(data);
+  });
+
+  $.get(this.params['object_dump_path'], null, function(data){
+    $('#object-info').empty().append(data);
+  });
+
 }
