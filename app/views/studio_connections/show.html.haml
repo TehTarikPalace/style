@@ -1,16 +1,20 @@
 .col-sm-12
   %h1.page-header Studio Connection
+  %ol.breadcrumb
+    %li.active
+      #{StudioConnection.find(params[:id]).oracle_instance}
   #repository-list{ :data => {:'repo-id' => @connection.id }}
-    %table.table
-      %thead
-        %tr
-          %th Repository Name
-          %th Version
-          %th Modify Date
-          %th CRS
-          %th Owner
-      %tbody
-        %tr#loading-repo
-          %td{ :colspan => 5}
-            Loading Repositories
-            %i.fa.fa-cog.fa-spin
+    .table-responsive
+      %table.table.table-hover.sortable
+        %thead
+          %tr
+            %th{ :'data-defaultsort' => 'desc'} Repository Name
+            %th Version
+            %th Modify Date
+            %th CRS
+            %th Owner
+        %tbody
+          %tr#loading-repo
+            %td{ :colspan => 5}
+              Loading Repositories
+              %i.fa.fa-cog.fa-spin

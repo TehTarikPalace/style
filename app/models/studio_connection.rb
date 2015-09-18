@@ -1,4 +1,6 @@
 require "oci8"
+require "uri"
+
 class StudioConnection < ActiveRecord::Base
   validates_presence_of :username, :password, :oracle_host, :oracle_instance
   after_initialize :default_values
@@ -86,26 +88,31 @@ class StudioConnection < ActiveRecord::Base
   end
 
   #given a repo name and path, gets the child object guid
+  # to handle cases where things in between are the same
   def get_guid repo_name, path
-      current_layer = path.split("/")[1]
+      # change from "/path/to/object.html?guid=xxxx" to "/path/to/object"
+      cleaned = URI.decode( path.gsub(/\.html.*/, "").gsub(/^\//, "") )
+
+      current_layer = path.split("/")[0]
 
       if current_layer.nil? then
         #already top level
         return nil
       else
         #get the top level guid and traverse
-        return get_guid_traverse(repo_name, current_path, nil)
+        return get_guid_traverse(repo_name, cleaned, nil)
       end
   end
 
   #show info dump based on guid
+  # returns {:entity_id, :entity_tbl , < results of select * from repo_name.entity_tbl where id = entity_id> }
   def get_object_dump repo_name, guid
     entity_result = query("select entity_id, entity_tbl from #{repo_name}.dbx_object where guid = '#{guid}'").first
     if entity_result.nil? then
       return nil
     else
       result = query "select * from #{repo_name}.#{entity_result[:ENTITY_TBL]} where id = #{entity_result[:ENTITY_ID]}"
-      return result.first
+      return entity_result.merge(result.first)
     end
   end
 
@@ -130,6 +137,33 @@ class StudioConnection < ActiveRecord::Base
     return return_items
   end
 
+  # parent_guid can be nil or Array of GUIDs
   def get_guid_traverse repo_name, current_path, parent_guid
+    splitted = current_path.split("/")
+    current_layer = splitted[0]
+
+    if parent_guid == nil then
+      #thinks it's top level
+      test_query = "select guid from #{repo_name}.dbx_object where parent_guid is null and name = '#{current_layer}'"
+      result = query(test_query).map{|x| x[:GUID]}.flatten
+    else
+      # thinks it's intermeditery level
+      test_query ="select guid from #{repo_name}.dbx_object where parent_guid in (#{parent_guid.map{|x| "'#{x}'"}.join(",")}) and name = '#{current_layer}'"
+      Rails.logger.info "query = #{test_query}"
+      result = query(test_query).map{|x| x[:GUID]}.flatten
+    end
+
+    if result.nil? then
+      return nil
+    end
+
+    if splitted.length > 1 then
+      #confirm it's intermeditery, keep digging
+      return get_guid_traverse repo_name, splitted[1..splitted.length-1].join("/"), result
+    else
+      #confirm it's at leaf of tree
+      return result.first
+    end
+
   end
 end

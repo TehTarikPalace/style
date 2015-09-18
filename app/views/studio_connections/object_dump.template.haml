@@ -1,10 +1,11 @@
-%table.table
-  %thead
-    %tr
-      %th Property
-      %th Value
-  %tbody
-    - @object.each_pair do |key,value|
+.table-responsive
+  %table.table.table-hover
+    %thead
       %tr
-        %td #{ key }
-        %td #{ value.class == String ? simple_format(value) : value }
+        %th Property
+        %th Value
+    %tbody
+      - @object.each_pair do |key,value|
+        %tr
+          %td #{ key }
+          %td #{ value.class == String ? simple_format(value) : value }

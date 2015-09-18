@@ -1,2 +1,9 @@
-.col-sm-6.col-sm-offset-2
-  = render :template => "studio_connections/index.template", :locals => { :connections => @connections }
+.jumbotron{ :style => "background:url(/taylor-swift-style-wallpaper-2.jpg); background-size:cover; height:70vh; color:white"}
+  .container
+    %h1 Style
+    %p Browse the Studio Repository
+.jumbotron
+  .container
+    %h1 Browse
+    .col-sm-6
+      = render :template => "studio_connections/index.template", :locals => { :connections => @connections }

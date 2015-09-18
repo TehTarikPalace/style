@@ -3,15 +3,19 @@
 
 .col-sm-12
   %h1.page-header #{params[:repo_name]}
-  %p
-  %table.table
-    %thead
-      %tr
-        %th.col-sm-8 Object
-        %th.col-sm-2 Updated
-        %th.col-sm-2 By
-    %tbody#repo-content
-      %tr#loading-content
-        %td
-          %i.fa.fa-cog.fa-spin
-          Loading Content...
+  %ol.breadcrumb
+    %li
+      #{link_to StudioConnection.find(params[:studio_connection_id]).oracle_instance, studio_connection_path(params[:studio_connection_id])}
+    %li.active /
+  .table-responsive
+    %table.table.table-hover
+      %thead
+        %tr
+          %th.col-sm-8 Object
+          %th.col-sm-2 Updated
+          %th.col-sm-2 By
+      %tbody#repo-content
+        %tr#loading-content
+          %td
+            %i.fa.fa-cog.fa-spin
+            Loading Content...

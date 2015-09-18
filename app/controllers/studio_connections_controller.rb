@@ -87,17 +87,24 @@ class StudioConnectionsController < ApplicationController
     end
   end
 
-  #GET    /studio_connections/:studio_connection_id/repositories/:repo_name:path
+  #GET    /studio_connections/:studio_connection_id/repositories/:repo_name:path(.:format)
+  # :format is mandatory, otherwise path cannot be found
   def browse_repo
       @repository = params[:repo_name]
       @path = params[:path]
+      if !params.has_key?(:guid) then
+        conn = StudioConnection.find(params[:studio_connection_id])
+        params[:guid] = conn.get_guid @repository, @path
+      end
 
       js :content_path =>
         "/studio_connections/#{params[:studio_connection_id]}/repositories/#{@repository}#{@path}.template?guid=#{params[:guid]}",
         :history_path => studio_connection_object_history_path(params[:studio_connection_id], @repository, params[:guid]),
-        :object_dump_path => studio_connection_object_browse_path(params[:studio_connection_id], @repository, params[:guid], :format => :template)
+        :object_dump_path => studio_connection_object_browse_path(params[:studio_connection_id], @repository, params[:guid],
+          :format => :template)
       #somehow this doesn't work
-      #studio_connection_browse_repo_path(params[:studio_connection_id], @repository, :path => @path, :guid => params[:guid]) + ".template"
+      #studio_connection_browse_repo_path(params[:studio_connection_id], @repository,
+      #  :path => @path, :guid => params[:guid]) + ".template"
 
       respond_to do |format|
         format.html{
