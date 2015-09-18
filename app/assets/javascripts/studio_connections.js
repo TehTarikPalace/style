@@ -15,8 +15,6 @@ StudioConnectionsController.prototype.show = function(){
 
 StudioConnectionsController.prototype.show_repo = function(){
   //load contents of repo
-  console.log("looking for " + this.params['repository']);
-  console.log("grabbing" + this.params['content_path']);
   $.get(this.params['content_path'], null, function(data){
       $('#repo-content').empty().append(data);
   });

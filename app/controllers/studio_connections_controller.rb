@@ -34,7 +34,9 @@ class StudioConnectionsController < ApplicationController
   # always template
   def repositories
     conn = StudioConnection.find(params[:studio_connection_id])
-    @repositories = conn.query("select project, model_version, owner, create_date, modify_date, coordinate_system from sks_sys.sds_project")
+    @repositories = conn.query("select
+      project, model_version, owner, create_date, modify_date, coordinate_system from
+      sks_sys.sds_project")
   end
 
   #edit the template

@@ -54,7 +54,7 @@ class StudioConnection < ActiveRecord::Base
           #Rails.logger.info "get stuff for guid #{parent_guid}"
           return_items = list_obj repo_name, parent_guid
         else
-          Rails.logger.info "can't find guid, need to traverse"
+          #Rails.logger.info "can't find guid, need to traverse"
           parent_guid = get_guid(repo_name, path)
         end
       end
@@ -149,7 +149,7 @@ class StudioConnection < ActiveRecord::Base
     else
       # thinks it's intermeditery level
       test_query ="select guid from #{repo_name}.dbx_object where parent_guid in (#{parent_guid.map{|x| "'#{x}'"}.join(",")}) and name = '#{current_layer}'"
-      Rails.logger.info "query = #{test_query}"
+      #Rails.logger.info "query = #{test_query}"
       result = query(test_query).map{|x| x[:GUID]}.flatten
     end
 
