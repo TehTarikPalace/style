@@ -116,6 +116,13 @@ class StudioConnection < ActiveRecord::Base
     end
   end
 
+  #get repo stats
+  # updates the stats table
+  # also return an array  of {:property => value}
+  def get_stats repo_name
+    results = query("select entity_tbl as entity, count(*) as entity_count from #{repo_name}.dbx_object group by entity_tbl")
+  end
+
   private
 
   # returns a hash of :collection_guid => {:collection_name => name, :collection_property => value}

@@ -138,6 +138,14 @@ class StudioConnectionsController < ApplicationController
       format.template
     end
   end
+
+  #  GET    /studio_connections/:studio_connection_id/stats/:repo_name(.:format)
+  def repo_stats
+
+    sc = StudioConnection.find(params[:studio_connection_id])
+    @stats = sc.get_stats params[:repo_name]
+  end
+
   private
 
   def studio_connection_params

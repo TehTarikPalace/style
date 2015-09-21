@@ -1,0 +1,21 @@
+- content_for :head do
+  = "- #{params[:repo_name]}"
+
+.col-sm-12
+  %h1.page-header #{params[:repo_name]}
+  %ul.nav.nav-tabs.nav-justified
+    %li
+      %a{ :role => "presentation", :href => studio_connection_show_repo_path(params[:studio_connection_id], params[:repo_name])} Repository
+    %li.active
+      %a{ :role => "presentation", :href=>  studio_connection_repo_stats_path(params[:studio_connection_id], params[:repo_name])} Statistics
+  %br
+  %table.table.table-hover
+    %thead
+      %tr
+        %th Propoerty
+        %th Count
+    %tbody
+      - @stats.each do |line|
+        %tr
+          %td #{ line[:ENTITY]}
+          %td #{ line[:ENTITY_COUNT].to_i}

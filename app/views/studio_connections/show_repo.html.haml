@@ -3,6 +3,12 @@
 
 .col-sm-12
   %h1.page-header #{params[:repo_name]}
+  %ul.nav.nav-tabs.nav-justified
+    %li.active
+      %a{ :role => "presentation", :href => studio_connection_show_repo_path(params[:studio_connection_id], params[:repo_name])} Repository
+    %li
+      %a{ :role => "presentation", :href=>  studio_connection_repo_stats_path(params[:studio_connection_id], params[:repo_name])} Statistics
+  %br
   %ol.breadcrumb
     %li
       #{link_to StudioConnection.find(params[:studio_connection_id]).oracle_instance, studio_connection_path(params[:studio_connection_id])}
