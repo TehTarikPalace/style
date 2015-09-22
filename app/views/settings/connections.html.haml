@@ -1,6 +1,10 @@
 .col-sm-12
-  %h1.page-header Settings
-  %h2.page-header Connections
+  %h1.page-header Connections
+  %ul.breadcrumb
+    %li
+      %a{ :href => settings_path} Settings
+    %li.active
+      Connections
   = render :template => "studio_connections/admin_list.template", :locals => { :connections => @connections }
   %p
     %a.btn.btn-primary{ :href => new_studio_connection_path} New Connection

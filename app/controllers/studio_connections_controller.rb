@@ -146,6 +146,14 @@ class StudioConnectionsController < ApplicationController
     @stats = sc.get_stats params[:repo_name]
   end
 
+  # GET    /studio_connections/:studio_connection_id/stats/:repo_name/:object
+  def repo_object_stats
+    sc = StudioConnection.find(params[:studio_connection_id])
+    @results = sc.query "select insert_date, count(id) as insert_count 
+      from #{params[:repo_name]}.#{params[:object]}
+      group by insert_date order by insert_date"
+  end
+
   private
 
   def studio_connection_params

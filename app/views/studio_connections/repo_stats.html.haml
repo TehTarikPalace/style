@@ -17,5 +17,5 @@
     %tbody
       - @stats.each do |line|
         %tr
-          %td #{ line[:ENTITY]}
+          %td #{ link_to line[:ENTITY], studio_connection_repo_object_stats_path(params[:studio_connection_id], params[:repo_name], line[:ENTITY])}
           %td #{ line[:ENTITY_COUNT].to_i}

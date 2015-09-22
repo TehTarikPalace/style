@@ -1,0 +1,8 @@
+%tr.category-row
+  %td.col-sm-6
+    %input.form-control{ :type => 'text', :name => "category[]", :placeholder => "Type New Category",
+      :value => (defined? category) ? category.name : ''}
+    %input{ :type => "hidden", :name => "category_id[]", :value => (defined? category) ? category.id : -1 }
+  %td
+    %a.btn.btn-danger.delete-category
+      %i.fa.fa-minus

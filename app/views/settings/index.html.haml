@@ -1,0 +1,6 @@
+.col-sm-12
+  %h1.page-header Settings
+  = render :template => "settings/interface.template", :locals => { :target_picture => "http://placehold.it/128x128",
+    :target_path => connections_settings_path, :target_name => 'Connections'}
+  = render :template => "settings/interface.template", :locals => { :target_picture => "http://placehold.it/128x128",
+    :target_path => statistics_path, :target_name => 'Statistics'}

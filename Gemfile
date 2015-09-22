@@ -53,4 +53,3 @@ gem 'haml'
 gem 'less-rails-bootstrap'
 
 #javascript stuff
-gem 'paloma'

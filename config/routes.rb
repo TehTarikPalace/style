@@ -13,9 +13,32 @@ Rails.application.routes.draw do
     get 'history/:repo_name/:guid' => "studio_connections#history", :as => "object_history"
     get 'object/:repo_name/:guid' => "studio_connections#object_dump", :as => "object_browse"
     get 'stats/:repo_name' => "studio_connections#repo_stats", :as => "repo_stats"
+    get 'stats/:repo_name/:object' => "studio_connections#repo_object_stats", :as => "repo_object_stats"
   end
 
-  get 'settings' => "welcome#settings"
+  resources :settings, :only => [:index] do
+    collection do
+      get 'connections'
+      #get 'statistics'
+      resources :statistics, :only => [:index]  do
+        collection do
+          get 'edit_categories'
+          patch 'update_categories'
+          get 'edit_headers'
+          patch 'update_headers'
+        end
+
+      end
+    end
+  end
+
+  resources :statistics, :only => [] do
+    collection do
+      get 'new_category'
+    end
+  end
+
+  #get 'settings' => "welcome#settings"
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

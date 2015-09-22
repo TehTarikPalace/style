@@ -1,0 +1,13 @@
+.row
+  .col-sm-12
+    %h1.page-header #{params[:object]}
+    %table.table.table-responsive
+      %thead
+        %tr
+          %th Insert Date
+          %th Insert Count
+      %tbody
+        - @results.each do |line|
+          %tr
+            %td #{ line[:INSERT_DATE]}
+            %td #{ line[:INSERT_COUNT].to_i}
