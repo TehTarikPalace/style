@@ -34,4 +34,48 @@ StudioConnectionsController.prototype.browse_repo = function(){
     $('#object-info').empty().append(data);
   });
 
-}
+};
+
+StudioConnectionsController.prototype.repo_stats = function(){
+  console.log("stats: " + this.params['stats'][0].ENTITY);
+  var data_array = [];
+  $.each( this.params['stats'], function(index, value){
+      data_array.push( { name:value.ENTITY, y: parseInt(value.ENTITY_COUNT) });
+  } );
+
+  $('#repo-stats-chart').highcharts({
+    chart: { type:'pie'},
+    title: { text: this.params['repo_name'] + ' Composition'},
+    series: [{
+        colorByPoint: true,
+        data: data_array
+    }]
+  });
+};
+
+StudioConnectionsController.prototype.repo_object_stats = function(){
+  var data_array = [];
+  $.each( this.params['stats'], function(index, value){
+      data_array.push( [ Date.parse(value.INSERT_DATE), parseInt(value.INSERT_COUNT)] );
+  });
+
+  Highcharts.setOptions({
+      global: { useUTC:false}
+  });
+
+  $('#object-stats-chart').highcharts({
+      chart: { type: 'scatter'},
+      title: { text: 'Insert Activity'},
+      xAxis: { type: 'datetime'},
+      series:[{
+          type: 'scatter',
+          name: 'insert activity',
+          tooltip: {
+              pointFormatter: function(){
+                return '<b>' + Highcharts.dateFormat('%e-%b-%Y %H:%M:%S', this.x) + '</b><br>' + this.y
+              }
+          },
+          data: data_array
+      }]
+  });
+};

@@ -5,3 +5,11 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+StatCategory.create([
+  { :name => "Seismics"},
+  { :name => "Wells"},
+  { :name => "Shapes"},
+  { :name => "Interpretations"},
+  { :name => "Others"}
+])

@@ -3,9 +3,9 @@
 one:
   name: MyString
   display_name: MyString
-  repo_stat_id_id: 
+  stat_category_id: 
 
 two:
   name: MyString
   display_name: MyString
-  repo_stat_id_id: 
+  stat_category_id: 

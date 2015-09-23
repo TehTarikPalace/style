@@ -13,8 +13,7 @@
       %table.table
         %tbody#category-list
           - @categories.each do |category|
-            %tr
-              %td #{cateogry.inspect}
+            = render :template => "statistics/new_category.template", :locals => { :category => category}
           %tr
             %td
               %a.btn.btn-primary#new-category

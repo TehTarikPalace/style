@@ -3,10 +3,10 @@ class CreateStatHeaders < ActiveRecord::Migration
     create_table :stat_headers do |t|
       t.string :name
       t.string :display_name
-      t.references :repo_stat_id, index: true
+      t.references :stat_category, index: true
 
       t.timestamps null: false
     end
-    add_foreign_key :stat_headers, :repo_stat_ids
+    add_foreign_key :stat_headers, :stat_categories
   end
 end

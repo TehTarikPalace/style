@@ -1,6 +1,18 @@
+- content_for :head do
+  = "- #{params[:repo_name]} > Statistics > #{params[:object]}"
+
 .row
   .col-sm-12
     %h1.page-header #{params[:object]}
+    %ul.breadcrumb
+      %li
+        #{link_to StudioConnection.find(params[:studio_connection_id]).oracle_instance, studio_connection_path(params[:studio_connection_id])}
+      %li
+        #{link_to params[:repo_name],  studio_connection_show_repo_path(params[:studio_connection_id], params[:repo_name])}
+      %li
+        #{link_to "Statistics", studio_connection_repo_stats_path(params[:studio_connection_id], params[:repo_name])}
+      %li.active #{ params[:object]}
+    #object-stats-chart
     %table.table.table-responsive
       %thead
         %tr

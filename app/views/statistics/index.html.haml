@@ -9,8 +9,12 @@
   - if @categories.empty? then
     %p No Categories yet
   - else
-    - @categories.each do |category|
-      = category.inspect
+    .row
+      .col-sm-4
+        %ul.list-group
+        - @categories.each do |category|
+          %li.list-group-item #{category.name}
+  %br
   %a.btn.btn-primary{ :href => edit_categories_statistics_path } Edit Categories
 
 
