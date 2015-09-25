@@ -39,16 +39,71 @@ StudioConnectionsController.prototype.browse_repo = function(){
 StudioConnectionsController.prototype.repo_stats = function(){
   console.log("stats: " + this.params['stats'][0].ENTITY);
   var data_array = [];
+  var cat_data = [];
+  var entity_data = [];
+
+  //assumption data is sorted by ENTITY_CAT
   $.each( this.params['stats'], function(index, value){
-      data_array.push( { name:value.ENTITY, y: parseInt(value.ENTITY_COUNT) });
-  } );
+
+    //look for same category data
+    //if the cat is there, push data, else nothing
+    var inCat = false;
+
+    //build cat data
+    $.each( cat_data, function(i,v){
+        if(v.id == value.ENTITY_CAT){
+          //find the correnspending entity data
+          $.each( entity_data, function(entity_i, entity_v){
+            if(entity_v.name == value.ENTITY_CAT){
+                entity_v.y += parseInt(value.ENTITY_COUNT);
+                return false;
+            }
+          });
+          //v.y += parseInt(value.ENTITY_COUNT);
+          //v.data.push ( [value.ENTITY, parseInt(value.ENTITY_COUNT)] );
+          v.data.push( { name: value.ENTITY, y: parseInt(value.ENTITY_COUNT)});
+          inCat = true;
+          return false;
+        };
+    });
+
+    if(inCat == false){
+      cat_data.push({
+        id: value.ENTITY_CAT,
+        data: [{ name:value.ENTITY, y: parseInt(value.ENTITY_COUNT)}]
+        //y: parseInt(value.ENTITY_COUNT)
+      });
+
+      entity_data.push({
+          name: value.ENTITY_CAT,
+          y: parseInt(value.ENTITY_COUNT),
+          drilldown: value.ENTITY_CAT
+      });
+    }
+
+    //data_array.push( { name:value.ENTITY, y: parseInt(value.ENTITY_COUNT) });
+
+  });
+
+
+  console.log(cat_data);
+  console.log(entity_data);
 
   $('#repo-stats-chart').highcharts({
     chart: { type:'pie'},
     title: { text: this.params['repo_name'] + ' Composition'},
+    xAxis:{
+      type: 'category'
+    },
+    legend: { enabled:false },
+    drilldown: {
+      allowPointDrilldown: true,
+      series: cat_data
+    },
     series: [{
+        name: 'Data Type Count',
         colorByPoint: true,
-        data: data_array
+        data: entity_data
     }]
   });
 };

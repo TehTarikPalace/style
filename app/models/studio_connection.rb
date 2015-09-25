@@ -121,6 +121,16 @@ class StudioConnection < ActiveRecord::Base
   # also return an array  of {:property => value}
   def get_stats repo_name
     results = query("select entity_tbl as entity, count(*) as entity_count from #{repo_name}.dbx_object group by entity_tbl")
+    new_results = results.map do |x|
+      translated_entry = StatHeader.lookup x[:ENTITY]
+      if translated_entry.nil? then
+        x.merge( { :ENTITY_TBL => x[:ENTITY], :ENTITY_CAT => "Uncategorized" } )
+      else
+        { :ENTITY => translated_entry[:display_name], :ENTITY_TBL => x[:ENTITY],  
+          :ENTITY_COUNT => x[:ENTITY_COUNT], :ENTITY_CAT => translated_entry[:category] }
+      end
+    end
+    return new_results.sort{|x,y| x[:ENTITY_CAT] <=> y[:ENTITY_CAT]}
   end
 
   private

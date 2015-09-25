@@ -25,5 +25,14 @@
   - else
     %table.table
       %thead
+        %tr
+          %th Entry
+          %th Display name
+          %th Category
       %tbody
+        - @headers.each do |header|
+          %tr
+            %td #{ header.name }
+            %td #{ header.display_name }
+            %td #{ header.stat_category.name }
   %button.btn.btn-primary{ :type => "button"} Edit Headers

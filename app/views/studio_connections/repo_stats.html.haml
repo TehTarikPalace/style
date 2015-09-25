@@ -9,14 +9,16 @@
     %li.active
       %a{ :role => "presentation", :href=>  studio_connection_repo_stats_path(params[:studio_connection_id], params[:repo_name])} Statistics
   %br
-  #repo-stats-chart
+  #repo-stats-chart{ :style => "height: 80vh" }
   %table.table.table-hover
     %thead
       %tr
         %th Propoerty
         %th Count
+        %th Category
     %tbody
       - @stats.each do |line|
         %tr
-          %td #{ link_to line[:ENTITY], studio_connection_repo_object_stats_path(params[:studio_connection_id], params[:repo_name], line[:ENTITY])}
+          %td #{ link_to line[:ENTITY], studio_connection_repo_object_stats_path(params[:studio_connection_id], params[:repo_name], line[:ENTITY_TBL])}
           %td #{ line[:ENTITY_COUNT].to_i}
+          %td #{ line[:ENTITY_CAT]}
