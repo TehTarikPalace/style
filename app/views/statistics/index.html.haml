@@ -1,3 +1,5 @@
+- content_for :head do
+  = "- Settings > Statistics"
 .col-sm-12
   %h1.page-header Statistics
   %ul.breadcrumb
@@ -15,7 +17,9 @@
         - @categories.each do |category|
           %li.list-group-item #{category.name}
   %br
-  %a.btn.btn-primary{ :href => edit_categories_statistics_path } Edit Categories
+  %p
+    %a.btn.btn-primary{ :disabled => true, :href => '#' } Edit Categories
+    \-- Comming soon
 
 
   %h2.page-header Headers
@@ -35,4 +39,6 @@
             %td #{ header.name }
             %td #{ header.display_name }
             %td #{ header.stat_category.name }
-  %button.btn.btn-primary{ :type => "button"} Edit Headers
+  %p
+    %a.btn.btn-primary{ :href => '#' } Edit Headers
+    \-- Comming soon

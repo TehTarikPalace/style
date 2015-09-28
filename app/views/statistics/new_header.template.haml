@@ -1,0 +1,11 @@
+%tr.header-row
+  %td.col-sm-6
+    %input.form-control{ :type => 'text', :name => "headers[]", :placeholder => "Type New Header",
+      :value => (defined? header) ? header.name : ''}
+    %input{ :type => "hidden", :name => "header_id[]", :value => (defined? header) ? header.id : -1 }
+  %td.col-sm-4
+    = select_tag('header_cat[]', options_for_select(StatCategory.all.map{ |x| [x.name, x.id] },
+      (defined? header) ? header.stat_category.id : nil ), :class => 'form-control' )
+  %td
+    %a.btn.btn-danger.delete-category
+      %i.fa.fa-minus

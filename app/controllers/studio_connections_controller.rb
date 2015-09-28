@@ -157,6 +157,20 @@ class StudioConnectionsController < ApplicationController
     js :stats => @results
   end
 
+  #  DELETE /studio_connections/:id
+  def destroy
+    sc = StudioConnection.find(params[:id])
+
+    if sc.nil? then
+      flash[:notice] = "Connection now found"
+    else
+      sc.destroy
+      flash[:notice] = "Studio Connection deleted"
+    end
+
+    redirect_to connections_settings_path
+  end
+
   private
 
   def studio_connection_params

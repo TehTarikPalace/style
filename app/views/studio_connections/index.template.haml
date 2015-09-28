@@ -1,6 +1,7 @@
-- if connections.empty? then
+- if connections.nil? or connections.empty? then
   %ul.list-group
-    %li.list-group-item No Connections
+    %li.list-group-item
+      %a{ :href => new_studio_connection_path } No Connections. Create one
 - else
   %ul.list-group
     - connections.each do |connection|

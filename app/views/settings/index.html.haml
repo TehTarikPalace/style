@@ -1,6 +1,8 @@
+- content_for :head do
+  = "- Settings"
 .col-sm-12
   %h1.page-header Settings
-  = render :template => "settings/interface.template", :locals => { :target_picture => "http://placehold.it/128x128",
+  = render :template => "settings/interface.template", :locals => { :target_picture => "images/settings-conn.png",
     :target_path => connections_settings_path, :target_name => 'Connections'}
-  = render :template => "settings/interface.template", :locals => { :target_picture => "http://placehold.it/128x128",
+  = render :template => "settings/interface.template", :locals => { :target_picture => "images/settings-stats.png",
     :target_path => statistics_path, :target_name => 'Statistics'}

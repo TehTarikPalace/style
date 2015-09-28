@@ -14,7 +14,7 @@
         %tbody#category-list
           - @categories.each do |category|
             = render :template => "statistics/new_category.template", :locals => { :category => category}
-          %tr
+          %tr#new-category-tr
             %td
               %a.btn.btn-primary#new-category
                 %i.fa.fa-plus

@@ -42,7 +42,7 @@ class StudioConnection < ActiveRecord::Base
           where parent_guid is null"
         results.each do |line|
           return_items = return_items.merge( {
-            line[:GUID].to_sym => { :name => line[:NAME], :id => line[:ID], :guid => line[:GUID],
+            line[:GUID].to_sym => { :name => line[:NAME].nil? ? "empty" : line[:NAME], :id => line[:ID], :guid => line[:GUID],
               :object_update_date => line[:OBJECT_UPDATE_DATE], :object_update_user => line[:OBJECT_UPDATE_USER]
             }
           })
@@ -126,7 +126,7 @@ class StudioConnection < ActiveRecord::Base
       if translated_entry.nil? then
         x.merge( { :ENTITY_TBL => x[:ENTITY], :ENTITY_CAT => "Uncategorized" } )
       else
-        { :ENTITY => translated_entry[:display_name], :ENTITY_TBL => x[:ENTITY],  
+        { :ENTITY => translated_entry[:display_name], :ENTITY_TBL => x[:ENTITY],
           :ENTITY_COUNT => x[:ENTITY_COUNT], :ENTITY_CAT => translated_entry[:category] }
       end
     end

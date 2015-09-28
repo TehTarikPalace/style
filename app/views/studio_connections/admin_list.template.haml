@@ -8,3 +8,7 @@
         %a{ :href => edit_studio_connection_path(connection)}
           %i.fa.fa-cog
         #{connection.username}@//#{connection.oracle_host }:#{connection.port}/#{connection.oracle_instance}
+        .pull-right
+          = form_tag studio_connection_path(connection), :method => :delete do
+            %button.btn.btn-danger.btn-xs{ :type => 'submit', :data => { :confirm => "Are you sure? "}}
+              %i.fa.fa-minus
