@@ -8,6 +8,8 @@
       %a{ :role => "presentation", :href => studio_connection_show_repo_path(params[:studio_connection_id], params[:repo_name])} Repository
     %li.active
       %a{ :role => "presentation", :href=>  studio_connection_repo_stats_path(params[:studio_connection_id], params[:repo_name])} Statistics
+    %li
+      %a{ :role => "presentation", :href=>  studio_connection_conformity_path(params[:studio_connection_id], params[:repo_name])} Conformity
   %br
   #repo-stats-chart{ :style => "height: 80vh" }
   %table.table.table-hover

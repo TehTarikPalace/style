@@ -1,9 +1,9 @@
 - content_for :head do
-  = "- #{params[:repo_name]} > Statistics > #{params[:object]}"
+  = "- #{params[:repo_name]} > Statistics > #{@header_info[:display_name]}"
 
 .row
   .col-sm-12
-    %h1.page-header #{params[:object]}
+    %h1.page-header #{@header_info[:display_name]}
     %ul.breadcrumb
       %li
         #{link_to StudioConnection.find(params[:studio_connection_id]).oracle_instance, studio_connection_path(params[:studio_connection_id])}
@@ -11,15 +11,19 @@
         #{link_to params[:repo_name],  studio_connection_show_repo_path(params[:studio_connection_id], params[:repo_name])}
       %li
         #{link_to "Statistics", studio_connection_repo_stats_path(params[:studio_connection_id], params[:repo_name])}
-      %li.active #{ params[:object]}
+      %li.active #{ @header_info[:display_name]}
     #object-stats-chart
     %table.table.table-responsive
       %thead
         %tr
+          %th
           %th Insert Date
           %th Insert Count
       %tbody
         - @results.each do |line|
           %tr
+            %td
+              %a{ :href => "#", :data => { :time =>  line[:INSERT_DATE].to_i }}
+                %i.fa.fa-toggle-down
             %td #{ line[:INSERT_DATE]}
             %td #{ line[:INSERT_COUNT].to_i}

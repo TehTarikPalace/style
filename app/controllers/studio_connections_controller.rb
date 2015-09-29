@@ -153,7 +153,7 @@ class StudioConnectionsController < ApplicationController
     @results = sc.query "select insert_date, count(id) as insert_count
       from #{params[:repo_name]}.#{params[:object]}
       group by insert_date order by insert_date"
-
+    @header_info = StatHeader.lookup params[:object]
     js :stats => @results
   end
 
@@ -171,6 +171,10 @@ class StudioConnectionsController < ApplicationController
     redirect_to connections_settings_path
   end
 
+  #GET    /studio_connections/:studio_connection_id/conformity/:repo_name
+  def conformity
+  end
+  
   private
 
   def studio_connection_params

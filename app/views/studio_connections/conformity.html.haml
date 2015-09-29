@@ -1,0 +1,56 @@
+- content_for :head do
+  = "- #{params[:repo_name]} > Conformity"
+
+.col-sm-12
+  %h1.page-header #{params[:repo_name]}
+  %ul.nav.nav-tabs.nav-justified
+    %li
+      %a{ :role => "presentation", :href => studio_connection_show_repo_path(params[:studio_connection_id], params[:repo_name])} Repository
+    %li
+      %a{ :role => "presentation", :href=>  studio_connection_repo_stats_path(params[:studio_connection_id], params[:repo_name])} Statistics
+    %li.active
+      %a{ :role => "presentation", :href=>  studio_connection_conformity_path(params[:studio_connection_id], params[:repo_name])} Conformity
+  %br
+.col-sm-12
+  %h2.page-header Reference Wells
+  %p
+    = "Wells\\Reference Wells\\"
+  %h2.page-header User Wells
+  %p
+    = "Wells:<Project Title>\User Name\\"
+  %h2.page-header 2D Seismic
+  %p
+    = "Seismic\\2D\<Survey Name>\\"
+  %h2.page-header 3D Seismic
+  %p
+    = "Seismic\\3D\<Survey Name>\\"
+  %h2.page-header User Cropped Seismic\
+  %p
+    = "Seismic\\Cropped Seismic:<Project Title>\\<User name>\\"
+  %h2.page-header Volume Attributes
+  %p
+    = "Seismic\\Volume Attributes:<Project Title>\\<User Name>\\"
+  %h2.page-header Fault Sticks
+  %p
+    = "Interpretation:<Project Title>\\<User Name>\\Faults\\Fault Sticks\\"
+  %h2.page-header Fault Polygons
+  %p
+    = "Interpretation:<Project Title>\\<User Name>\\Faults\\Fault Polygons\\"
+  %h2.page-header Horizons
+  %p
+    = "Interpretation:<Project Title>\\<User Name>\\Horizons\\"
+  %h2.page-header Prospect,Lead & Basin Polygons
+  %p
+    = "Interpretation:<Project Title>\\<User Name>\\Polygons\\<Prospect Name>\\"
+  %h2.page-header Hydrocarbon Outline Polygons
+  %p
+    = "Interpretation:<Project Title>\\<User Name>\\Polygons\\<Prospect Name>\\Hydrocardon Outline\<Reservoir Name>\\"
+  %h2.page-header Reference Polygons
+  %p
+    = "Reference Polygons\\"
+  %h2.page-header Surfaces
+  %p
+    = "Interpretation:<Project Title>\\<User Name>\\Surfaces\\"
+  %h2.page-header Well Tops
+  %p
+    = "Well Tops:<Project Title>:<User Name>\\"

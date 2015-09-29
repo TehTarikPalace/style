@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     get 'object/:repo_name/:guid' => "studio_connections#object_dump", :as => "object_browse"
     get 'stats/:repo_name' => "studio_connections#repo_stats", :as => "repo_stats"
     get 'stats/:repo_name/:object' => "studio_connections#repo_object_stats", :as => "repo_object_stats"
+    get 'conformity/:repo_name' => "studio_connections#conformity", :as => "conformity"
   end
 
   resources :settings, :only => [:index] do
