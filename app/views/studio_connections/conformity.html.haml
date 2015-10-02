@@ -12,45 +12,86 @@
       %a{ :role => "presentation", :href=>  studio_connection_conformity_path(params[:studio_connection_id], params[:repo_name])} Conformity
   %br
 .col-sm-12
-  %h2.page-header Reference Wells
+  %h2.page-header
+    %a{ :href => "#ref-wells", :data => { :toggle => "collapse"}, :role => "button"}
+      %i.fa.fa-toggle-down
+    Reference Wells
   %p
     = "Wells\\Reference Wells\\"
-  %h2.page-header User Wells
+  .collapse#ref-wells
+    .well
+      = findings(@dir_list, "Wells\/Reference Wells")
+  %h2.page-header
+    %a{ :href => "#user-wells", :data => { :toggle => "collapse"}, :role => "button"}
+      %i.fa.fa-toggle-down
+    User Wells
   %p
-    = "Wells:<Project Title>\User Name\\"
+    = "Wells:<Project Title>\\User Name\\"
+  .collapse#user-wells
+    .well
+      = findings(@dir_list, "Wells:[[:word:]]+\/[[:word:]]+")
   %h2.page-header 2D Seismic
   %p
-    = "Seismic\\2D\<Survey Name>\\"
+    = "Seismic\\2D\\<Survey Name>\\"
+  %p
+    = findings(@dir_list, "Seismic\/2D\/[[:word:]]+")
   %h2.page-header 3D Seismic
   %p
-    = "Seismic\\3D\<Survey Name>\\"
+    = "Seismic\\3D\\<Survey Name>\\"
+  %p
+    = findings(@dir_list, "Seismic\/3D\/[[:word:]]+")
   %h2.page-header User Cropped Seismic\
   %p
     = "Seismic\\Cropped Seismic:<Project Title>\\<User name>\\"
+  %p
+    = findings(@dir_list, "Cropped Seismic:[[:word:]]+\/[[:word:]]+")
   %h2.page-header Volume Attributes
   %p
     = "Seismic\\Volume Attributes:<Project Title>\\<User Name>\\"
+  %p
+    = findings(@dir_list, "Seismic\/Volume Attributes:[[:word:]]+\/[[:word:]]+")
   %h2.page-header Fault Sticks
   %p
     = "Interpretation:<Project Title>\\<User Name>\\Faults\\Fault Sticks\\"
+  %p
+    = findings(@dir_list, "Interpretation:[[:word:]]+\/[[:word:]]+\/Faults\/Fault Sticks")
   %h2.page-header Fault Polygons
   %p
     = "Interpretation:<Project Title>\\<User Name>\\Faults\\Fault Polygons\\"
+  %p
+    = findings(@dir_list, "Interpretation:[[:word:]]+\/[[:word:]]+\/Faults\/Fault Polygons")
   %h2.page-header Horizons
   %p
     = "Interpretation:<Project Title>\\<User Name>\\Horizons\\"
+  %p
+    = findings(@dir_list, "Interpretation:[[:word:]]+\/[[:word:]]+\/Horizons")
   %h2.page-header Prospect,Lead & Basin Polygons
   %p
     = "Interpretation:<Project Title>\\<User Name>\\Polygons\\<Prospect Name>\\"
+  %p
+    = findings(@dir_list, "Interpretation:[[:word:]]+\/[[:word:]]+\/Polygons\/[[:word:]]+")
   %h2.page-header Hydrocarbon Outline Polygons
   %p
     = "Interpretation:<Project Title>\\<User Name>\\Polygons\\<Prospect Name>\\Hydrocardon Outline\<Reservoir Name>\\"
+  %p
+    = findings(@dir_list, "Interpretation:[[:word:]]+\/[[:word:]]+\/Polygons\/[[:word:]]+\/Hydrocarbon Outline Polygons")
   %h2.page-header Reference Polygons
   %p
     = "Reference Polygons\\"
+  %p
+    = findings(@dir_list, "Reference Polygons")
   %h2.page-header Surfaces
   %p
     = "Interpretation:<Project Title>\\<User Name>\\Surfaces\\"
+  %p
+    = findings(@dir_list, "Interpretation:[[:word:]]+\/[[:word:]]+\/Surfaces")
   %h2.page-header Well Tops
   %p
-    = "Well Tops:<Project Title>:<User Name>\\"
+    = "Well Tops:<Project Title>:<User Name>"
+  %p
+    = findings(@dir_list, "Well Tops:[[:word:]]+:[[graph]]+")
+  %h2.page-header Uncategorized
+  %p
+    Things that are not in the previous list
+  %p
+    = content_tag(:ul , @dir_list.map{|x| content_tag(:li, x)}.join.html_safe).html_safe

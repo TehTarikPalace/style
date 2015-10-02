@@ -133,7 +133,41 @@ class StudioConnection < ActiveRecord::Base
     return new_results.sort{|x,y| x[:ENTITY_CAT] <=> y[:ENTITY_CAT]}
   end
 
-  private
+  # check repo object structure for conformity to company standard
+  # return a hash with { :conformity_parameter_1 => [paths, ...],
+  #   :conformity_parameter_2 => [paths, ..] , :not_conform => [path that dont conform to any parameters]}
+  def conformity_check repo_name
+    #get this straight
+    project_title = "[[:alnum:]]+"
+    survey_name = "[[:graph:]]+"
+    username = "[[:graph]]+"
+
+
+
+  end
+
+  # prototype to get list of object path recurvively around 3 levels deep
+  # return an array of all paths at 3 level deep
+  def tree repo_name
+    result = query("select name, guid, parent_guid from #{repo_name}.dbx_object")
+    result_array = Array.new
+    result.select{|x| x[:PARENT_GUID].nil? }.each{|x| tree_recursive(result, "/#{x[:NAME]}", x[:GUID], 0, result_array) }
+    return result_array
+  end
+
+  #some recrusive function to traverse the object tree, returns array of strings
+  def tree_recursive result_set, path_so_far, parent_guid, current_depth, result_array
+    children = result_set.select{|x| x[:PARENT_GUID] == parent_guid}
+    if children.empty? || current_depth == 4 then
+      result_array << path_so_far
+      #just spit at leaf
+    else
+      children.each do |x|
+        tree_recursive(result_set, "#{path_so_far}/#{x[:NAME]}", x[:GUID], current_depth + 1, result_array)
+      end
+    end
+  end
+
 
   # returns a hash of :collection_guid => {:collection_name => name, :collection_property => value}
   # given by the parent_guid in the repo
@@ -183,4 +217,6 @@ class StudioConnection < ActiveRecord::Base
     end
 
   end
+
+  private :tree_recursive, :list_obj, :get_guid_traverse
 end

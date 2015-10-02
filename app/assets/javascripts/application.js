@@ -17,6 +17,11 @@
 //= require turbolinks
 //= require_tree .
 
+Turbolinks.enableProgressBar();
+
+$(document).on('page:change', function(){
+		$.bootstrapSortable();
+});
 
 $(document).on('page:load', function(){
 	Paloma.executeHook();
