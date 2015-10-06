@@ -149,25 +149,21 @@ class StudioConnection < ActiveRecord::Base
   # prototype to get list of object path recurvively around 3 levels deep
   # return an array of all paths at 3 level deep
   def tree repo_name
-    result = query("select name, guid, parent_guid from #{repo_name}.dbx_object")
-    result_array = Array.new
-    result.select{|x| x[:PARENT_GUID].nil? }.each{|x| tree_recursive(result, "/#{x[:NAME]}", x[:GUID], 0, result_array) }
-    return result_array
-  end
-
-  #some recrusive function to traverse the object tree, returns array of strings
-  def tree_recursive result_set, path_so_far, parent_guid, current_depth, result_array
-    children = result_set.select{|x| x[:PARENT_GUID] == parent_guid}
-    if children.empty? || current_depth == 4 then
-      result_array << path_so_far
-      #just spit at leaf
-    else
-      children.each do |x|
-        tree_recursive(result_set, "#{path_so_far}/#{x[:NAME]}", x[:GUID], current_depth + 1, result_array)
+    #let oracle do the heavy lifting
+    #result = query("select name, guid, parent_guid from #{repo_name}.dbx_object")
+    result = query("
+      select sys_connect_by_path(name, '~') path
+      from #{repo_name}.dbx_object
+      where level <= 5
+      and connect_by_isleaf = case
+      when level != 5 then 1 else 0
       end
-    end
+      connect by prior guid=parent_Guid
+      start with parent_Guid is null
+      order siblings by name
+    ")
+    return result.collect{|x| x[:PATH] }
   end
-
 
   # returns a hash of :collection_guid => {:collection_name => name, :collection_property => value}
   # given by the parent_guid in the repo
@@ -218,5 +214,5 @@ class StudioConnection < ActiveRecord::Base
 
   end
 
-  private :tree_recursive, :list_obj, :get_guid_traverse
+  private :list_obj, :get_guid_traverse
 end

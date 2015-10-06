@@ -173,7 +173,12 @@ class StudioConnectionsController < ApplicationController
 
   #GET    /studio_connections/:studio_connection_id/conformity/:repo_name
   def conformity
-    @dir_list = StudioConnection.find(params[:studio_connection_id]).tree params[:repo_name]
+    respond_to do |format|
+      format.html
+      format.template {
+        @dir_list = StudioConnection.find(params[:studio_connection_id]).tree params[:repo_name]
+      }
+    end
   end
 
   private

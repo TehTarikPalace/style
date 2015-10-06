@@ -134,3 +134,10 @@ StudioConnectionsController.prototype.repo_object_stats = function(){
       }]
   });
 };
+
+StudioConnectionsController.prototype.conformity = function(){
+  //load the actual report
+  $.get(window.location.pathname + ".template", null, function(data){
+    $('#conformity-report').empty().append(data);
+  });
+};

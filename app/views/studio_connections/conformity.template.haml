@@ -1,0 +1,149 @@
+%h2.page-header
+  %a{ :href => "#ref-wells", :data => { :toggle => "collapse"}, :role => "button"}
+    %i.fa.fa-toggle-down
+  Reference Wells
+%p
+  = "Wells\\Reference Wells\\"
+.collapse#ref-wells
+  .well
+    = findings(@dir_list, "Wells~Reference Wells")
+
+%h2.page-header
+  %a{ :href => "#user-wells", :data => { :toggle => "collapse"}, :role => "button"}
+    %i.fa.fa-toggle-down
+  User Wells
+%p
+  = "Wells:!project_title!\\User Name\\"
+.collapse#user-wells
+  .well
+    = findings(@dir_list, "Wells:!project_title!~[[:word:]]+")
+
+%h2.page-header
+  %a{ :href => "#2d-seismic", :data => { :toggle => "collapse"}, :role => "button"}
+    %i.fa.fa-toggle-down
+  2D Seismic
+%p
+  = "Seismic\\2D\\<Survey Name>\\"
+.collapse#2d-seismic
+  .well
+    = findings(@dir_list, "Seismic~2D~[[:word:]]+")
+
+%h2.page-header
+  %a{ :href => "#3d-seismic", :data => { :toggle => "collapse"}, :role => "button"}
+    %i.fa.fa-toggle-down
+  3D Seismic
+%p
+  = "Seismic\\3D\\<Survey Name>\\"
+.collapse#3d-seismic
+  .well
+    = findings(@dir_list, "Seismic~3D~[[:word:]]+")
+
+%h2.page-header
+  %a{ :href => "#user-cropped-seismic", :data => { :toggle => "collapse"}, :role => "button"}
+    %i.fa.fa-toggle-down
+  User Cropped Seismic\
+%p
+  = "Seismic\\Cropped Seismic:!project_title!\\!username!\\"
+.collapse#user-cropped-seismic
+  .well
+    = findings(@dir_list, "Cropped Seismic:!project_title!~[[:word:]]+")
+
+%h2.page-header
+  %a{ :href => "#vol-attributes", :data => { :toggle => "collapse"}, :role => "button"}
+    %i.fa.fa-toggle-down
+  Volume Attributes
+%p
+  = "Seismic\\Volume Attributes:!project_title!\\!username!\\"
+.collapse#vol-attributes
+  .well
+    = findings(@dir_list, "Seismic~Volume Attributes:!project_title!~[[:word:]]+")
+
+%h2.page-header
+  %a{ :href => "#fault-sticks", :data => { :toggle => "collapse"}, :role => "button"}
+    %i.fa.fa-toggle-down
+  Fault Sticks
+%p
+  = "Interpretation:!project_title!\\!username!\\Faults\\Fault Sticks\\"
+.collapse#fault-sticks
+  .well
+    = findings(@dir_list, "Interpretation:!project_title!~[[:word:]]+~Faults~Fault Sticks")
+
+%h2.page-header
+  %a{ :href => "#fault-polygons", :data => { :toggle => "collapse"}, :role => "button"}
+    %i.fa.fa-toggle-down
+  Fault Polygons
+%p
+  = "Interpretation:!project_title!\\!username!\\Faults\\Fault Polygons\\"
+.collapse#fault-polygons
+  .well
+    = findings(@dir_list, "Interpretation:!project_title!~[[:word:]]+~Faults~Fault Polygons")
+
+%h2.page-header
+  %a{ :href => "#horizons", :data => { :toggle => "collapse"}, :role => "button"}
+    %i.fa.fa-toggle-down
+  Horizons
+%p
+  = "Interpretation:!project_title!\\!username!\\Horizons\\"
+.collapse#horizons
+  .well
+    = findings(@dir_list, "Interpretation:!project_title!~[[:word:]]+~Horizons")
+
+%h2.page-header
+  %a{ :href => "#other-polygons", :data => { :toggle => "collapse"}, :role => "button"}
+    %i.fa.fa-toggle-down
+  Prospect,Lead & Basin Polygons
+%p
+  = "Interpretation:!project_title!\\!username!\\Polygons\\<Prospect Name>\\"
+.collapse#other-polygons
+  .well
+    = findings(@dir_list, "Interpretation:!project_title!~[[:word:]]+~Polygons~[[:word:]]+")
+
+%h2.page-header
+  %a{ :href => "#hydrocarbon-polygons", :data => { :toggle => "collapse"}, :role => "button"}
+    %i.fa.fa-toggle-down
+  Hydrocarbon Outline Polygons
+%p
+  = "Interpretation:!project_title!\\!username!\\Polygons\\<Prospect Name>\\Hydrocardon Outline\<Reservoir Name>\\"
+.collapse#hydrocarbon-polygons
+  .well
+    = findings(@dir_list, "Interpretation:!project_title!~[[:word:]]+~Polygons~[[:word:]]+~Hydrocarbon Outline Polygons")
+
+%h2.page-header
+  %a{ :href => "#reference-polygons", :data => { :toggle => "collapse"}, :role => "button"}
+    %i.fa.fa-toggle-down
+  Reference Polygons
+%p
+  = "Reference Polygons\\"
+.collapse#reference-polygons
+  .well
+    = findings(@dir_list, "Reference Polygons")
+
+%h2.page-header
+  %a{ :href => "#surfaces", :data => { :toggle => "collapse"}, :role => "button"}
+    %i.fa.fa-toggle-down
+  Surfaces
+%p
+  = "Interpretation:!project_title!\\!username!\\Surfaces\\"
+.collapse#surfaces
+  .well
+    = findings(@dir_list, "Interpretation:!project_title!~[[:word:]]+~Surfaces")
+
+%h2.page-header
+  %a{ :href => "#well-tops", :data => { :toggle => "collapse"}, :role => "button"}
+    %i.fa.fa-toggle-down
+  Well Tops
+%p
+  = "Well Tops:!project_title!:!username!"
+.collapse#well-tops
+  .well
+    = findings(@dir_list, "Well Tops:!project_title!:[[graph]]+")
+
+%h2.page-header
+  %a{ :href => "#uncategorized", :data => { :toggle => "collapse"}, :role => "button"}
+    %i.fa.fa-toggle-down
+  Uncategorized
+%p
+  Things that are not in the previous list
+.collapse#uncategorized
+  .well
+    = content_tag(:ul , @dir_list.map{|x| content_tag(:li, x.gsub(/~/, "/"))}.join.html_safe).html_safe
