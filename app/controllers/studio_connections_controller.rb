@@ -181,6 +181,12 @@ class StudioConnectionsController < ApplicationController
     end
   end
 
+  #  GET    /studio_connections/:studio_connection_id/users(.:format)
+  def users
+    sc = StudioConnection.find(params[:studio_connection_id])
+    @users = sc.query "select account, create_date, first_name, last_name, email_address from sks_sys.sds_user"
+  end
+
   private
 
   def studio_connection_params

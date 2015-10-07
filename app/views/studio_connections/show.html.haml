@@ -3,6 +3,11 @@
   %ol.breadcrumb
     %li.active
       #{StudioConnection.find(params[:id]).oracle_instance}
+  %ul.nav.nav-tabs.nav-justified
+    %li.active
+      %a{ :role => "presentation", :href => studio_connection_path(params[:id]) } Repositories
+    %li
+      %a{ :role => "presentation", :href => studio_connection_users_path(params[:id]) } Users
   #repository-list{ :data => {:'repo-id' => @connection.id }}
     .table-responsive
       %table.table.table-hover.sortable

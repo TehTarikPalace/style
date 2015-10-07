@@ -15,6 +15,8 @@ Rails.application.routes.draw do
     get 'stats/:repo_name' => "studio_connections#repo_stats", :as => "repo_stats"
     get 'stats/:repo_name/:object' => "studio_connections#repo_object_stats", :as => "repo_object_stats"
     get 'conformity/:repo_name' => "studio_connections#conformity", :as => "conformity"
+    get 'users' => "studio_connections#users", :as => "users"
+    get 'users/:repo_name' => "studio_connections#repo_users", :as => "repo_users"
   end
 
   resources :settings, :only => [:index] do
