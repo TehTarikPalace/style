@@ -1,0 +1,10 @@
+- if indices.nil? or indices.empty?  then
+  %ul.list-group
+    %li.list-group-item
+      %a{ :href => new_studio_index_path } No Connections. Create one
+- else
+  %ul.list-group
+    - indices.each do |index|
+      %li.list-group-item
+        %a{ :href => studio_index_path(index)}
+          #{ index.full_path}

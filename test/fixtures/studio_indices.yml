@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  server: MyString
+  share: MyString
+  path: MyString
+
+two:
+  server: MyString
+  share: MyString
+  path: MyString

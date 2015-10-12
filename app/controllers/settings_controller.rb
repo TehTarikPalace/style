@@ -5,4 +5,8 @@ class SettingsController < ApplicationController
   def connections
     @connections = StudioConnection.all
   end
+
+  def indexes
+    @indexes = StudioIndex.all
+  end
 end

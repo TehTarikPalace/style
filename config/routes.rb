@@ -8,21 +8,22 @@ Rails.application.routes.draw do
   resources :studio_connections do
     get 'repositories'
     get 'repositories/:repo_name' => "studio_connections#show_repo", :as => "show_repo"
-    get 'repositories/:repo_name:path' =>"studio_connections#browse_repo",
+    get 'repositories/:repo_name/input:path' =>"studio_connections#browse_repo",
       :as => "browse_repo", :constraints => { :path => /\/.+(?=\.html\z|\.template\z)/ }
-    get 'history/:repo_name/:guid' => "studio_connections#history", :as => "object_history"
-    get 'object/:repo_name/:guid' => "studio_connections#object_dump", :as => "object_browse"
-    get 'stats/:repo_name' => "studio_connections#repo_stats", :as => "repo_stats"
-    get 'stats/:repo_name/:object' => "studio_connections#repo_object_stats", :as => "repo_object_stats"
-    get 'conformity/:repo_name' => "studio_connections#conformity", :as => "conformity"
+    get 'repositories/:repo_name/history/:guid' => "studio_connections#history", :as => "object_history"
+    get 'repositories/:repo_name/object/:guid' => "studio_connections#object_dump", :as => "object_browse"
+    get 'repositories/:repo_name/stats' => "studio_connections#repo_stats", :as => "repo_stats"
+    get 'repositories/:repo_name/stats/:object' => "studio_connections#repo_object_stats", :as => "repo_object_stats"
+    get 'repositories/:repo_name/conformity' => "studio_connections#conformity", :as => "conformity"
+    get 'repositories/:repo_name/users' => "studio_connections#repo_users", :as => "repo_users"
+    get 'repositories/:repo_name/users/:id' => "studio_connections#repo_user", :as => "repo_user"
     get 'users' => "studio_connections#users", :as => "users"
-    get 'users/:repo_name' => "studio_connections#repo_users", :as => "repo_users"
+    get 'users/:username' => "studio_connections#user", :as => "user"
   end
 
   resources :settings, :only => [:index] do
     collection do
       get 'connections'
-      #get 'statistics'
       resources :statistics, :only => [:index]  do
         collection do
           get 'edit_categories'
@@ -30,8 +31,8 @@ Rails.application.routes.draw do
           get 'edit_headers'
           patch 'update_headers'
         end
-
       end
+      get 'indexes'
     end
   end
 
@@ -40,6 +41,10 @@ Rails.application.routes.draw do
       get 'new_category'
       get 'new_header'
     end
+  end
+
+  resources :studio_indices do
+    
   end
 
   #get 'settings' => "welcome#settings"

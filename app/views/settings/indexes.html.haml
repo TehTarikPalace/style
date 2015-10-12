@@ -1,0 +1,12 @@
+- content_for :head do
+  = "- Settings > Indexes"
+.col-sm-12
+  %h1.page-header Indexes
+  %ul.breadcrumb
+    %li
+      %a{ :href => settings_path} Settings
+    %li.active
+      Indexes
+  = render :template => "studio_indices/admin_list.template", :locals => { :indexes => @indexes }
+  %p
+    %a.btn.btn-primary{ :href => new_studio_index_path} New Index

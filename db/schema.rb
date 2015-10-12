@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150923080036) do
+ActiveRecord::Schema.define(version: 20151012052320) do
 
   create_table "stat_categories", force: :cascade do |t|
     t.string   "name"
@@ -37,6 +37,17 @@ ActiveRecord::Schema.define(version: 20150923080036) do
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.integer  "port"
+  end
+
+  create_table "studio_indices", force: :cascade do |t|
+    t.string   "server"
+    t.string   "share"
+    t.string   "path"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "username"
+    t.string   "password"
+    t.string   "workgroup"
   end
 
 end

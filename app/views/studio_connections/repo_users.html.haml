@@ -1,31 +1,15 @@
 - content_for :head do
-  = "- #{params[:repo_name]}"
+  = "- #{params[:repo_name]} > Users"
 
 .col-sm-12
   %h1.page-header #{params[:repo_name]}
   %ul.nav.nav-tabs.nav-justified
-    %li.active
+    %li
       %a{ :role => "presentation", :href => studio_connection_show_repo_path(params[:studio_connection_id], params[:repo_name])} Repository
     %li
       %a{ :role => "presentation", :href=>  studio_connection_repo_stats_path(params[:studio_connection_id], params[:repo_name])} Statistics
     %li
       %a{ :role => "presentation", :href=>  studio_connection_conformity_path(params[:studio_connection_id], params[:repo_name])} Conformity
-    %li
+    %li.active
       %a{ :role => "presentation", :href=>  studio_connection_repo_users_path(params[:studio_connection_id], params[:repo_name])} Users
-  %br
-  %ol.breadcrumb
-    %li
-      #{link_to StudioConnection.find(params[:studio_connection_id]).oracle_instance, studio_connection_path(params[:studio_connection_id])}
-    %li.active /
-  .table-responsive
-    %table.table.table-hover
-      %thead
-        %tr
-          %th.col-sm-8 Object
-          %th.col-sm-2 Updated
-          %th.col-sm-2 By
-      %tbody#repo-content
-        %tr#loading-content
-          %td
-            %i.fa.fa-cog.fa-spin
-            Loading Content...
+  = render :template => "studio_connections/users.template", :locals => { :'@users' => @users}

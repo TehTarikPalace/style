@@ -5,17 +5,4 @@
       %a{ :role => "presentation", :href => studio_connection_path(params[:studio_connection_id]) } Repositories
     %li.active
       %a{ :role => "presentation", :href => studio_connection_users_path(params[:studio_connection_id]) } Users
-  %table.table.table-hover
-    %thead
-      %tr
-        %th User
-        %th Name
-        %th Email
-        %th Created
-    %tbody
-      - @users.each do |user|
-        %tr
-          %td #{ user[:ACCOUNT] }
-          %td #{ user[:FIRST_NAME]} #{ user[:LAST_NAME]}
-          %td #{ user[:EMAIL_ADDRESS]}
-          %td #{ user[:CREATE_DATE]}
+  = render :template => "studio_connections/users.template", :locals => { :'@users' => @users}

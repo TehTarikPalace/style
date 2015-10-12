@@ -1,0 +1,21 @@
+= form_for @index, { :html => { :class => 'form-horizontal'}} do |i|
+  .form-group
+    %label.col-sm-2.control-label Path
+    .col-sm-10
+      %input.form-control{:value => @shared_path, :name => "shared_path",
+      :type => 'text', :placeholder => '//server/share/path/to/index'}
+  .form-group
+    = i.label :workgroup, :class => 'col-sm-2 control-label'
+    .col-sm-10
+      = i.text_field :workgroup, :class => 'form-control'
+  .form-group
+    = i.label :user, :class => 'col-sm-2 control-label'
+    .col-sm-10
+      = i.text_field :username, :class => 'form-control', :placeholder => "username"
+  .form-group
+    = i.label :password, :class => 'col-sm-2 control-label'
+    .col-sm-10
+      = i.password_field :password, :class => 'form-control', :placeholder => "password"
+  .form-group
+    .col-sm-10.col-sm-offset-2
+      = i.submit "Submit", :class => 'btn btn-primary'

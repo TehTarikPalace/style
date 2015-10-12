@@ -141,3 +141,15 @@ StudioConnectionsController.prototype.conformity = function(){
     $('#conformity-report').empty().append(data);
   });
 };
+
+StudioConnectionsController.prototype.users = function(){
+  $('.collapse').on('shown.bs.collapse', function(){
+    if($(this).children().length == 0 ){
+      var table_row_handle = $(this);
+      console.log('should load ' + $(this).attr('data-load'));
+      $.get( $(this).attr('data-load'), null, function(data){
+        table_row_handle.append(data);
+      }, 'html');
+    }
+  });
+};

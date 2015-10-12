@@ -1,0 +1,8 @@
+%td{ :colspan => 5 }
+  - if @interface.empty? then
+    No explicit permission detected
+  - else
+    %p User have access in
+    %ul
+      - @interface.each do |line|
+        %li #{ line[:ACCOUNT] }

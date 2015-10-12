@@ -54,3 +54,6 @@ gem 'less-rails-bootstrap'
 
 #javascript stuff
 gem 'paloma'
+
+#samba client
+gem 'sambal'

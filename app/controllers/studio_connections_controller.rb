@@ -100,7 +100,7 @@ class StudioConnectionsController < ApplicationController
       end
 
       js :content_path =>
-        "/studio_connections/#{params[:studio_connection_id]}/repositories/#{@repository}#{@path}.template?guid=#{params[:guid]}",
+        "/studio_connections/#{params[:studio_connection_id]}/repositories/#{@repository}/input/#{@path}.template?guid=#{params[:guid]}",
         :history_path => studio_connection_object_history_path(params[:studio_connection_id], @repository, params[:guid]),
         :object_dump_path => studio_connection_object_browse_path(params[:studio_connection_id], @repository, params[:guid],
           :format => :template)
@@ -185,6 +185,34 @@ class StudioConnectionsController < ApplicationController
   def users
     sc = StudioConnection.find(params[:studio_connection_id])
     @users = sc.query "select account, create_date, first_name, last_name, email_address from sks_sys.sds_user"
+  end
+
+  #  GET    /studio_connections/:studio_connection_id/users/:username
+  def user
+    sc = StudioConnection.find(params[:studio_connection_id])
+    @interface = sc.query "select account from sks_sys.sds_pipe where sds_user = '#{params[:username]}'"
+
+    respond_to do |format|
+      format.template
+    end
+  end
+
+  def repo_users
+    sc = StudioConnection.find(params[:studio_connection_id])
+    @users = sc.query "
+      select
+        users.account, users.first_name, last_name, email_address, users.create_Date
+      from sks_sys.sds_user users, sks_sys.sds_pipe pipe
+      where
+        users.account = pipe.sds_user
+        and pipe.account = '#{params[:repo_name]}'
+     "
+
+     js :users
+     respond_to do |format|
+       format.html
+       format.template
+     end
   end
 
   private
