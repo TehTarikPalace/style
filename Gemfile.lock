@@ -173,6 +173,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   less-rails-bootstrap
+  nokogiri
   paloma
   rails (= 4.2.0)
   ruby-oci8

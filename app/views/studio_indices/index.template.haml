@@ -6,5 +6,5 @@
   %ul.list-group
     - indices.each do |index|
       %li.list-group-item
-        %a{ :href => studio_index_path(index)}
-          #{ index.full_path}
+        %a{ :href => studio_index_path(index), :style => "word-wrap:break-word;"}
+          #{index.full_path}

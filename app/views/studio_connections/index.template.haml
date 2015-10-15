@@ -6,5 +6,5 @@
   %ul.list-group
     - connections.each do |connection|
       %li.list-group-item
-        %a{ :href => studio_connection_path(connection)}
+        %a{ :href => studio_connection_path(connection), :style => "word-wrap:break-word;"}
           #{connection.username}@//#{connection.oracle_host }/#{connection.oracle_instance}

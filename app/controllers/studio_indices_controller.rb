@@ -30,6 +30,7 @@ class StudioIndicesController < ApplicationController
 
   def show
     @studio_index = StudioIndex.find(params[:id])
+    @settings_dump = @studio_index.dump_settings
   end
 
   private

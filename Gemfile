@@ -57,3 +57,6 @@ gem 'paloma'
 
 #samba client
 gem 'sambal'
+
+#xml parser
+gem 'nokogiri'

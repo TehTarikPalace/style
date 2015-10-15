@@ -3,4 +3,5 @@
   %ol.breadcrumb
     %li.active
       #{ @studio_index.full_path}
-  %p Show Indexing stuff here
+  %h2.page-header
+  %pre{:style => "white-space: pre-wrap;"} #{@settings_dump}
