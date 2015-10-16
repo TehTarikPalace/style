@@ -1,0 +1,27 @@
+%h3.page-header Indexes
+%p
+  %ul
+    - @indexes.each do |index|
+      %li #{index}
+%h3.page-header Location
+%p #{ @location }
+%h3.page-header Repositories
+- @repositories.each do |repo|
+  .panel.panel-default
+    .panel-heading
+      %h4{ :style => "word-wrap:break-word;"} #{ repo[:name]}
+    .panel-body
+      %h4 Description
+      %p #{ repo[:name]}
+      %h4 Application
+      %p 
+        %dl.dl-horizontal
+          %dt Display name
+          %dd #{ repo[:application][:display_name]}
+          %dt Name
+          %dd #{ repo[:application][:name] }
+          %dt Version
+          %dd #{ repo[:application][:version] }
+
+      %h4 Parameters
+      %p Info about Parameters here

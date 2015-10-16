@@ -44,7 +44,8 @@ Rails.application.routes.draw do
   end
 
   resources :studio_indices do
-    
+    get 'env_dump'
+
   end
 
   #get 'settings' => "welcome#settings"

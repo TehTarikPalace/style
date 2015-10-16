@@ -3,5 +3,14 @@
   %ol.breadcrumb
     %li.active
       #{ @studio_index.full_path}
-  %h2.page-header
-  %pre{:style => "white-space: pre-wrap;"} #{@settings_dump}
+  - counter = 0
+  - @data_environments.each do |data_env|
+    %h3.page-header
+      %a{ :data => { :toggle => "collapse" }, :role => "button", :href => "#data-env-#{counter}" }
+        %i.fa.fa-toggle-down
+      #{ data_env.split("\\").last }
+    .collapse{ :id => "data-env-#{counter}", :data => { :env => data_env }}
+
+      .data-env-detail
+        %i.fa.fa-cog.fa-spin
+    - counter += 1
