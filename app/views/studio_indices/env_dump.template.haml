@@ -11,8 +11,15 @@
     .panel-heading
       %h4{ :style => "word-wrap:break-word;"} #{ repo[:name].split("\\").last }
     .panel-body
-      %h4 Description
-      %p{ :style => "word-wrap:break-word;"} #{ repo[:name]}
+      %h4 Details
+      %p
+        %dl.dl-horizontal
+          %dt Description
+          %dd{ :style => "word-wrap:break-word;"} #{ repo[:name]}
+          %dt Key
+          %dd #{repo[:key]}
+          %dt Is Managed?
+          %dd #{repo[:isManaged]}
       %h4 Application
       %p
         %dl.dl-horizontal
@@ -26,5 +33,5 @@
       %p
         %dl.dl-horizontal
           - repo[:parameters].each do |keypair|
-            %dt #{keypair[0]}
+            %dt #{keypair[0].scan(/[[:upper:]][[:lower:]]+/).join(" ")}
             %dd{ :style => 'word-wrap:break-word;'} #{keypair[1]}

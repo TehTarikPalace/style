@@ -51,6 +51,8 @@ class StudioIndicesController < ApplicationController
         {
           :description => repo.at_css("Description").text,
           :name => repo.at_css("Name").text,
+          :key => repo.at_css("Key").text,
+          :isManaged => repo.at_css("IsManaged").text,
           :application => {
             :display_name => repo.at_css("Application").xpath("a:DisplayName",
               'a' => studio_schema_path).text,
