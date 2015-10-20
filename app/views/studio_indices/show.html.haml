@@ -10,7 +10,6 @@
         %i.fa.fa-toggle-down
       #{ data_env.split("\\").last }
     .collapse{ :id => "data-env-#{counter}", :data => { :env => data_env }}
-
+      %i.fa.fa-cog.fa-spin
       .data-env-detail
-        %i.fa.fa-cog.fa-spin
     - counter += 1

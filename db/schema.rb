@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151012052320) do
+ActiveRecord::Schema.define(version: 20151019074546) do
 
   create_table "stat_categories", force: :cascade do |t|
     t.string   "name"
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20151012052320) do
     t.string   "username"
     t.string   "password"
     t.string   "workgroup"
+    t.string   "caption"
   end
 
 end

@@ -1,8 +1,12 @@
 class StudioIndex < ActiveRecord::Base
   after_initialize :default_values
+  validates :server, :presence => true
+  validates :share, :presence => true
+
 
   def default_values
     self.workgroup ||= "WORKGROUP"
+    self.caption ||= "#{share}@#{server}"
   end
 
   def full_path

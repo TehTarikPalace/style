@@ -2,7 +2,7 @@
   = "- #{params[:repo_name]} > #{params[:path]}"
 
 .col-sm-12
-  %h1.page-header #{ params[:path].split("/").last}
+  %h1.page-header{:style => 'word-wrap:brea-word;'} #{ params[:path].split("/").last}
   %ol.breadcrumb
     %li
       #{link_to StudioConnection.find(params[:studio_connection_id]).oracle_instance, studio_connection_path(params[:studio_connection_id])}

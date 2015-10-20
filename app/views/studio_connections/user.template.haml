@@ -5,4 +5,4 @@
     %p User have access in
     %ul
       - @interface.each do |line|
-        %li #{ line[:ACCOUNT] }
+        %li #{ link_to line[:ACCOUNT], studio_connection_show_repo_path(params[:studio_connection_id], line[:ACCOUNT])  }

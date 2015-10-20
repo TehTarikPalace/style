@@ -9,12 +9,12 @@
 - @repositories.each do |repo|
   .panel.panel-default
     .panel-heading
-      %h4{ :style => "word-wrap:break-word;"} #{ repo[:name]}
+      %h4{ :style => "word-wrap:break-word;"} #{ repo[:name].split("\\").last }
     .panel-body
       %h4 Description
-      %p #{ repo[:name]}
+      %p{ :style => "word-wrap:break-word;"} #{ repo[:name]}
       %h4 Application
-      %p 
+      %p
         %dl.dl-horizontal
           %dt Display name
           %dd #{ repo[:application][:display_name]}
@@ -22,6 +22,9 @@
           %dd #{ repo[:application][:name] }
           %dt Version
           %dd #{ repo[:application][:version] }
-
       %h4 Parameters
-      %p Info about Parameters here
+      %p
+        %dl.dl-horizontal
+          - repo[:parameters].each do |keypair|
+            %dt #{keypair[0]}
+            %dd{ :style => 'word-wrap:break-word;'} #{keypair[1]}
