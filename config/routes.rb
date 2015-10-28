@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   resources :studio_connections do
     get 'repositories'
+    get 'dashboard'
+    get 'dashboard/query/:query_id' => "studio_connections#dash_query", :as => "dash_query"
     get 'repositories/:repo_name' => "studio_connections#show_repo", :as => "show_repo"
     get 'repositories/:repo_name/input:path' =>"studio_connections#browse_repo",
       :as => "browse_repo", :constraints => { :path => /\/.+(?=\.html\z|\.template\z)/ }

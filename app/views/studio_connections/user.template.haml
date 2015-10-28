@@ -1,6 +1,8 @@
 %td{ :colspan => 5 }
+  - if !@privilege[:PRIVILEGE].nil? then
+    %p User have #{@privilege[:PRIVILEGE]} privilege
   - if @interface.empty? then
-    No explicit permission detected
+    %p No explicit permission detected
   - else
     %p User have access in
     %ul

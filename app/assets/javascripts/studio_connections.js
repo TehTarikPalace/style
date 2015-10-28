@@ -146,10 +146,20 @@ StudioConnectionsController.prototype.users = function(){
   $('.collapse').on('shown.bs.collapse', function(){
     if($(this).children().length == 0 ){
       var table_row_handle = $(this);
-      console.log('should load ' + $(this).attr('data-load'));
       $.get( $(this).attr('data-load'), null, function(data){
         table_row_handle.append(data);
       }, 'html');
     }
+  });
+};
+
+StudioConnectionsController.prototype.dashboard = function(){
+  $('.request-result').click(function(){
+    var handle = $(this);
+    $(this).find('i').toggleClass('fa-spin');
+    $.get(handle.attr('data-querypath'), null, function(data){
+      $(handle.attr('data-target')).empty().append(data);
+      $(handle).find('i').toggleClass('fa-spin');
+    });
   });
 };

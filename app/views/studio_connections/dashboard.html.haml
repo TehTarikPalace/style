@@ -1,0 +1,29 @@
+.col-sm-12
+  %h1.page-header Dashboard
+  %ol.breadcrumb
+    %li.active
+      #{StudioConnection.find(params[:studio_connection_id]).oracle_instance}
+  %ul.nav.nav-tabs.nav-justified
+    %li
+      %a{ :role => "presentation", :href => studio_connection_path(params[:studio_connection_id]) } Repositories
+    %li.active
+      %a{ :role => "presentation", :href => studio_connection_dashboard_path(params[:studio_connection_id]) } Dashboard
+    %li
+      %a{ :role => "presentation", :href => studio_connection_users_path(params[:studio_connection_id]) } Users
+  %div
+    %br
+    - @dashboard.each do |dash|
+      .panel.panel-default
+        .panel-heading
+          %h3 #{dash[:NAME]}
+        .panel-body
+          %h4.page-header Description
+          %p #{dash[:REMARKS]}
+          %h4.page-header Results
+          %p
+            %button.btn.btn-default.request-result{ :type => 'button', :data => { :queryid => dash[:ID],
+              :querypath => studio_connection_dash_query_path(params[:studio_connection_id], dash[:ID],
+                :format => :template), :target => "#result-#{dash[:ID]}"}  }
+              %i.fa.fa-refresh
+            Hit Refresh to get the data
+          .result-table{ :id => "result-#{dash[:ID]}"}

@@ -36,7 +36,7 @@ class StudioConnectionsController < ApplicationController
     conn = StudioConnection.find(params[:studio_connection_id])
     @repositories = conn.query("select
       project, model_version, owner, create_date, modify_date, coordinate_system from
-      sks_sys.sds_project")
+      sks_sys.sds_project order by project")
   end
 
   #edit the template
@@ -191,6 +191,7 @@ class StudioConnectionsController < ApplicationController
   def user
     sc = StudioConnection.find(params[:studio_connection_id])
     @interface = sc.query "select account from sks_sys.sds_pipe where sds_user = '#{params[:username]}'"
+    @privilege = sc.query("select privilege from sks_sys.sds_user where account = '#{params[:username]}'").first
 
     respond_to do |format|
       format.template
@@ -213,6 +214,22 @@ class StudioConnectionsController < ApplicationController
        format.html
        format.template
      end
+  end
+
+  #GET    /studio_connections/:studio_connection_id/dashboard
+  # get dashbaord values
+  def dashboard
+    @dashboard = StudioConnection.find(params[:studio_connection_id]).dashboard
+  end
+
+  # GET    /studio_connections/:studio_connection_id/dashboard/query/:query_id
+  def dash_query
+    sc = StudioConnection.find(params[:studio_connection_id])
+    @query_data = sc.dashboard_query(params[:query_id])
+
+    respond_to do |format|
+      format.template
+    end
   end
 
   private

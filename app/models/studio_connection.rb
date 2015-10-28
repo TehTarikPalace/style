@@ -165,6 +165,38 @@ class StudioConnection < ActiveRecord::Base
     return result.collect{|x| x[:PATH] }
   end
 
+  #query the dashbaord stats, return an array of dashboard id, name and results
+  def dashboard
+    dash_schema = self.query(
+      "select max(username) as username from dba_users where username like 'SKS_DD_%'").first[:USERNAME]
+
+    if !dash_schema.nil? then
+      dashboard = self.query(
+        "select id, name, remarks, dbms_lob.substr(sql_string, 4000, 1) as sql_string from #{dash_schema}.dbx_filter"
+      )
+    end
+  end
+
+  def dashboard_query query_id
+    dash_schema = self.query(
+      "select max(username) as username from dba_users where username like 'SKS_DD_%'").first[:USERNAME]
+
+      if !dash_schema.nil? then
+        sql_string = self.query(
+          "select dbms_lob.substr(sql_string, 4000, 1) as sql_string
+          from #{dash_schema}.dbx_filter
+          where id = #{query_id}"
+        )
+
+        if sql_string.nil? then
+          return nil
+        else
+          self.query(sql_string.first[:SQL_STRING])
+        end
+
+      end
+  end
+
   # returns a hash of :collection_guid => {:collection_name => name, :collection_property => value}
   # given by the parent_guid in the repo
   def list_obj repo_name, parent_guid
