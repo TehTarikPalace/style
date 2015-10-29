@@ -1,5 +1,5 @@
 - content_for :head do
-  = "- #{params[:repo_name]}"
+  = "- #{@connection.oracle_instance} > #{params[:repo_name]}"
 
 .col-sm-12
   %h1.page-header #{params[:repo_name]}

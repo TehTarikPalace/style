@@ -1,5 +1,5 @@
 - content_for :head do
-  = "- #{params[:repo_name]} > #{params[:path]}"
+  = "-  #{@connection.oracle_instance} > #{params[:repo_name]} > #{params[:path]}"
 
 .col-sm-12
   %h1.page-header{:style => 'word-wrap:brea-word;'} #{ params[:path].split("/").last}

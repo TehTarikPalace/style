@@ -1,5 +1,11 @@
+- content_for :head do
+  = "- #{@connection.oracle_instance} - Users"
+
 .col-sm-12
   %h1.page-header Users
+  %ol.breadcrumb
+    %li.active
+      #{StudioConnection.find(params[:studio_connection_id]).oracle_instance}
   %ul.nav.nav-tabs.nav-justified
     %li
       %a{ :role => "presentation", :href => studio_connection_path(params[:studio_connection_id]) } Repositories

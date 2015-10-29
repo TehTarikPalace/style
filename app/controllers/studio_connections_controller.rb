@@ -73,6 +73,7 @@ class StudioConnectionsController < ApplicationController
   # recommended by optional argument
   # guid  gets the parent guid
   def show_repo
+    @connection = StudioConnection.find params[:studio_connection_id]
     js :repository => params[:repo_name],
       :content_path =>
         studio_connection_show_repo_path(params[:studio_connection_id], params[:repo_name]) + ".template"
@@ -94,6 +95,7 @@ class StudioConnectionsController < ApplicationController
   def browse_repo
       @repository = params[:repo_name]
       @path = params[:path]
+      @connection = StudioConnection.find(params[:studio_connection_id])
       if !params.has_key?(:guid) then
         conn = StudioConnection.find(params[:studio_connection_id])
         params[:guid] = conn.get_guid @repository, @path
@@ -141,8 +143,8 @@ class StudioConnectionsController < ApplicationController
 
   #  GET    /studio_connections/:studio_connection_id/stats/:repo_name(.:format)
   def repo_stats
-    sc = StudioConnection.find(params[:studio_connection_id])
-    @stats = sc.get_stats params[:repo_name]
+    @connection = StudioConnection.find(params[:studio_connection_id])
+    @stats = @connection.get_stats params[:repo_name]
 
     js :stats => @stats, :repo_name => params[:repo_name]
   end
@@ -173,6 +175,8 @@ class StudioConnectionsController < ApplicationController
 
   #GET    /studio_connections/:studio_connection_id/conformity/:repo_name
   def conformity
+    @connection = StudioConnection.find(params[:studio_connection_id])
+    
     respond_to do |format|
       format.html
       format.template {
@@ -183,8 +187,8 @@ class StudioConnectionsController < ApplicationController
 
   #  GET    /studio_connections/:studio_connection_id/users(.:format)
   def users
-    sc = StudioConnection.find(params[:studio_connection_id])
-    @users = sc.query "select account, create_date, first_name, last_name, email_address from sks_sys.sds_user"
+    @connection = StudioConnection.find(params[:studio_connection_id])
+    @users = @connection.query "select account, create_date, first_name, last_name, email_address from sks_sys.sds_user"
   end
 
   #  GET    /studio_connections/:studio_connection_id/users/:username
@@ -219,7 +223,8 @@ class StudioConnectionsController < ApplicationController
   #GET    /studio_connections/:studio_connection_id/dashboard
   # get dashbaord values
   def dashboard
-    @dashboard = StudioConnection.find(params[:studio_connection_id]).dashboard
+    @connection = StudioConnection.find(params[:studio_connection_id])
+    @dashboard = @connection.dashboard
   end
 
   # GET    /studio_connections/:studio_connection_id/dashboard/query/:query_id
