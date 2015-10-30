@@ -1,0 +1,34 @@
+- content_for :other_js do
+  = javascript_include_tag 'http://cdn.babylonjs.com/2-2/babylon.js'
+end
+%h1.page-header Babylon Test
+%p Surface in pspex > W_SARAWAKREGIONAL_MYS >  /input/Interpretation:RGN_SARAWAKREGIONAL_2015/hazwan_minhat/Surfaces/MMU (SURFACE)/MMU[T]_DW2C
+%table.table
+  %thead
+    %tr
+      %th Item
+      %th Value
+  %tbody
+    %tr
+      %td Instance
+      %td pspex
+    %tr
+      %td Project
+      %td W_SARAWAKREGIONAL_MYS
+    %tr
+      %td Path
+      %td /input/Interpretation:RGN_SARAWAKREGIONAL_2015/hazwan_minhat/Surfaces/MMU (SURFACE)/MMU[T]_DW2C
+    %tr
+      %td Table Name
+      %td DovRegularHeightSurface
+    %tr
+      %td Table ID
+      %td 487229
+    %tr
+      %td Table GUID
+      %td ED96FFFA88ED42AEB4FC471AD96331D2
+%p Should get this:-
+%p
+  %img{ :src => "images/surface.png", :style => "width:100%;"}
+%p Now we got this:-
+%canvas#renderCanvas{ :style => "width:100%; height: 800px;"}
