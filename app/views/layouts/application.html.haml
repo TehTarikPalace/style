@@ -19,8 +19,20 @@
 					%a.navbar-brand{ :href => root_path } Style
 				.collapse.navbar-collapse#root
 					%ul.nav.navbar-nav.pull-right
-						%li
-							%a{ :href => settings_path } Settings
+						- if user_signed_in? then
+							%li
+								%a.dropdown-list{ :href => '#', :role => 'menu', :'data-toggle' => 'dropdown'}
+									#{ current_user.name}
+									%span.caret
+								%ul.dropdown-menu
+									%li
+										%a{ :href => settings_path } Settings
+									%li.divider
+									%li
+										= link_to 'Logout', destroy_user_session_path
+						- else
+							%li
+								%a{ :href => new_user_session_path } Login
 
 		.container
 			- flash.each do |name, msg|

@@ -60,3 +60,6 @@ gem 'sambal'
 
 #xml parser
 gem 'nokogiri'
+
+gem 'devise'
+gem 'net-ldap', :git => 'https://github.com/ruby-ldap/ruby-net-ldap'

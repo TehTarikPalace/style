@@ -34,9 +34,16 @@ class StudioConnectionsController < ApplicationController
   # always template
   def repositories
     conn = StudioConnection.find(params[:studio_connection_id])
+    dd = conn.query("select max(username) as username from dba_users where username like 'SKS_DD_%'").
+      first[:USERNAME]
     @repositories = conn.query("select
-      project, model_version, owner, create_date, modify_date, coordinate_system from
-      sks_sys.sds_project order by project")
+      project, model_version, owner, create_date, modify_date, coordinate_system||':'||name as coordinate_system 
+      from
+      sks_sys.sds_project,
+      #{dd}.r_coordinate_ref_system
+      where
+       coordinate_system = code
+      order by project")
   end
 
   #edit the template
@@ -176,7 +183,7 @@ class StudioConnectionsController < ApplicationController
   #GET    /studio_connections/:studio_connection_id/conformity/:repo_name
   def conformity
     @connection = StudioConnection.find(params[:studio_connection_id])
-    
+
     respond_to do |format|
       format.html
       format.template {
