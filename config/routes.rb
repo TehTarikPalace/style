@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
   devise_for :users, :controllers => { :sessions => 'users/sessions'}
+  resources :users, :only => [:new] do
+    collection do
+      get 'search'
+    end
+    get 'credentials'
+    post 'update_credentials'
+  end
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -37,6 +45,8 @@ Rails.application.routes.draw do
         end
       end
       get 'indexes'
+      get 'admins'
+      post 'admins' => 'users#update_admins'
     end
   end
 

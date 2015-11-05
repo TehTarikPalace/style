@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151102084001) do
+ActiveRecord::Schema.define(version: 20151103070740) do
 
   create_table "stat_categories", force: :cascade do |t|
     t.string   "name"
@@ -51,6 +51,18 @@ ActiveRecord::Schema.define(version: 20151102084001) do
     t.string   "caption"
   end
 
+  create_table "user_credentials", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "studio_connection_id"
+    t.string   "username"
+    t.string   "password"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "user_credentials", ["studio_connection_id"], name: "index_user_credentials_on_studio_connection_id"
+  add_index "user_credentials", ["user_id"], name: "index_user_credentials_on_user_id"
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -67,6 +79,7 @@ ActiveRecord::Schema.define(version: 20151102084001) do
     t.string   "username"
     t.string   "domain"
     t.string   "name"
+    t.boolean  "admin"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

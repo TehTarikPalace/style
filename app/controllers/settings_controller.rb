@@ -1,4 +1,5 @@
 class SettingsController < ApplicationController
+  before_action :authenticate_user!
   def index
   end
 
@@ -8,5 +9,9 @@ class SettingsController < ApplicationController
 
   def indexes
     @indexes = StudioIndex.all
+  end
+
+  def admins
+    @admins = User.where(:admin => true)
   end
 end

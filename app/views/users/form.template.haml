@@ -1,0 +1,7 @@
+.form-group
+  .row
+    .col-sm-10
+      %input.form-control{ :type => 'text', :placeholder => 'Active Directory ID', :value => user.username, :name => 'username[]' }
+    .col-sm-2
+      %button.delete-admin.btn.btn-danger{ :type => 'button'}
+        %i.fa.fa-minus

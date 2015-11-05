@@ -1,0 +1,23 @@
+- content_for :head do
+  = "- Settings > Admins"
+.col-sm-12
+  %h1.page-header Admins
+  %ul.breadcrumb
+    %li
+      %a{ :href => settings_path} Settings
+    %li.active
+      Admins
+  %p People in this list can view everything, otherwise other users need to put in credentials
+  %p User must be logged in first because the name can be put into admin
+  .well
+    The default admin of this site is #{ ENV['default_admin']}
+  %h2.page-header List
+  = form_tag admins_settings_path do
+    #admin-list
+      - @admins.each do |admin|
+        = render :template => 'users/form.template', :locals => { :user => admin }
+    .form-group
+      %button.btn.btn-primary#new-admin{ :type => 'button' }
+        %i.fa.fa-plus
+    .form-group
+      %button.btn.btn-primary#update-admins{ :type => 'submit' } Update
