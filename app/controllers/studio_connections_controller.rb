@@ -36,14 +36,20 @@ class StudioConnectionsController < ApplicationController
     conn = StudioConnection.find(params[:studio_connection_id])
     dd = conn.query("select max(username) as username from dba_users where username like 'SKS_DD_%'").
       first[:USERNAME]
-    @repositories = conn.query("select
-      project, model_version, owner, create_date, modify_date, coordinate_system||':'||name as coordinate_system 
-      from
-      sks_sys.sds_project,
-      #{dd}.r_coordinate_ref_system
-      where
-       coordinate_system = code
-      order by project")
+    if current_user.admin? || current_user.username == ENV["default_admin"] then
+      @repositories = conn.query("select
+        project, model_version, owner, create_date, modify_date, coordinate_system||':'||name as coordinate_system
+        from
+        sks_sys.sds_project,
+        #{dd}.r_coordinate_ref_system
+        where
+         coordinate_system = code
+        order by project")
+    else
+      #get current credential
+      credential = current_user.user_credentials.where(:studio_connection_id => params[:id]).first
+      @repositories = []
+    end
   end
 
   #edit the template
