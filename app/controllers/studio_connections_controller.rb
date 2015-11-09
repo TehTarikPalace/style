@@ -1,4 +1,6 @@
 class StudioConnectionsController < ApplicationController
+  before_action :authenticate_user!
+
   def new
     @connection = StudioConnection.new
   end
@@ -22,6 +24,7 @@ class StudioConnectionsController < ApplicationController
 
   def show
     @connection = StudioConnection.find(params[:id])
+    @user_credential = current_user.user_credentials.where(:studio_connection_id => params[:id]).first
 
     respond_to do |format|
       format.html
@@ -47,8 +50,24 @@ class StudioConnectionsController < ApplicationController
         order by project")
     else
       #get current credential
-      credential = current_user.user_credentials.where(:studio_connection_id => params[:id]).first
-      @repositories = []
+      credential = current_user.user_credentials.where(:studio_connection_id => params[:studio_connection_id]).first
+      if credential.nil? then
+        @repositories = []
+      else
+        @repositories = conn.query("select
+          project.project, project.model_version, project.owner,
+          project.create_date, project.modify_date,
+          project.coordinate_system||':'||crs.name as coordinate_system
+          from
+          sks_sys.sds_project project,
+          sks_sys.sds_pipe pipe,
+          #{dd}.r_coordinate_ref_system crs
+          where
+           project.coordinate_system = crs.code
+           and pipe.sds_user = '#{credential.username.upcase}'
+           and project.project = pipe.account
+          order by project")
+      end
     end
   end
 
@@ -87,13 +106,22 @@ class StudioConnectionsController < ApplicationController
   # guid  gets the parent guid
   def show_repo
     @connection = StudioConnection.find params[:studio_connection_id]
+
+    #check permission
+    @allowed = @connection.user_allowed? current_user,  params[:repo_name]
+
     js :repository => params[:repo_name],
+      :allowed => @allowed,
       :content_path =>
         studio_connection_show_repo_path(params[:studio_connection_id], params[:repo_name]) + ".template"
 
     #conn = StudioConnection.find(params[:studio_connection_id])
     respond_to do |format|
-      format.html
+      format.html {
+        if !@allowed then
+          render :file => "public/403.html", :status => :forbidden
+        end
+      }
       format.template{
         conn = StudioConnection.find(params[:studio_connection_id])
         render :template => "studio_connections/browse_repo.template", :locals => {
@@ -157,9 +185,20 @@ class StudioConnectionsController < ApplicationController
   #  GET    /studio_connections/:studio_connection_id/stats/:repo_name(.:format)
   def repo_stats
     @connection = StudioConnection.find(params[:studio_connection_id])
+    @allowed = @connection.user_allowed? current_user, params[:repo_name]
+
     @stats = @connection.get_stats params[:repo_name]
 
     js :stats => @stats, :repo_name => params[:repo_name]
+
+    respond_to do |format|
+      format.html {
+        if !@allowed then
+          render :file => "public/403.html", :status => :forbidden
+        end
+      }
+    end
+
   end
 
   # GET    /studio_connections/:studio_connection_id/stats/:repo_name/:object
@@ -189,9 +228,14 @@ class StudioConnectionsController < ApplicationController
   #GET    /studio_connections/:studio_connection_id/conformity/:repo_name
   def conformity
     @connection = StudioConnection.find(params[:studio_connection_id])
+    @allowed = @connection.user_allowed? current_user, params[:repo_name]
 
     respond_to do |format|
-      format.html
+      format.html {
+        if !@allowed then
+          render :file => "public/403.html", :status => :forbidden
+        end
+      }
       format.template {
         @dir_list = StudioConnection.find(params[:studio_connection_id]).tree params[:repo_name]
       }
@@ -217,18 +261,24 @@ class StudioConnectionsController < ApplicationController
 
   def repo_users
     sc = StudioConnection.find(params[:studio_connection_id])
-    @users = sc.query "
-      select
-        users.account, users.first_name, last_name, email_address, users.create_Date
-      from sks_sys.sds_user users, sks_sys.sds_pipe pipe
-      where
-        users.account = pipe.sds_user
-        and pipe.account = '#{params[:repo_name]}'
-     "
+    allowed = sc.user_allowed? current_user, params[:repo_name]
 
      js :users
      respond_to do |format|
-       format.html
+       format.html{
+        if !allowed then
+          render :file => "public/403.html", :status => :forbidden
+        else
+          @users = sc.query "
+            select
+              users.account, users.first_name, last_name, email_address, users.create_Date
+            from sks_sys.sds_user users, sks_sys.sds_pipe pipe
+            where
+              users.account = pipe.sds_user
+              and pipe.account = '#{params[:repo_name]}'
+           "
+        end
+       }
        format.template
      end
   end
@@ -256,8 +306,6 @@ class StudioConnectionsController < ApplicationController
     params.require(:studio_connection).permit(:username, :password, :oracle_host, :oracle_instance)
   end
 
-  # conn is studio_connection instance
   def list_collections conn
-
   end
 end

@@ -246,5 +246,21 @@ class StudioConnection < ActiveRecord::Base
 
   end
 
+  def user_allowed? current_user, repo_name
+    if current_user.nil? then
+      return false
+    else
+      if current_user.admin? || current_user.username == ENV['default_admin'] then
+        return true
+      else
+        credential = current_user.user_credentials.where(:studio_connection_id => self.id).first
+        permission = self.query("select *
+          from sks_sys.sds_pipe
+          where sds_user = '#{credential.username.upcase}' and account = '#{repo_name.upcase}'" )
+        return !permission.empty?
+      end
+    end
+  end
+
   private :list_obj, :get_guid_traverse
 end

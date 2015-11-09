@@ -28,3 +28,7 @@
             %td{ :colspan => 5}
               Loading Repositories
               %i.fa.fa-cog.fa-spin
+          - if !(current_user.admin? || current_user == ENV['default_admin'] ) && (@user_credential.nil? || @user_credential.username.empty?) then
+            %tr
+              %td{ :colspan => 5}
+                You haven't set any credentials for this repository. Set them #{ link_to 'here', user_credentials_path(current_user) }

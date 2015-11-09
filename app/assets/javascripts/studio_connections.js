@@ -15,9 +15,15 @@ StudioConnectionsController.prototype.show = function(){
 
 StudioConnectionsController.prototype.show_repo = function(){
   //load contents of repo
-  $.get(this.params['content_path'], null, function(data){
-      $('#repo-content').empty().append(data);
-  });
+  console.log('allowed = ' + this.params['allowed'] );
+  if(this.params['allowed'] == false){
+    $('#repo-content').empty().append('<p> You don\'t have permission to see this</p>');
+  } else {
+    $.get(this.params['content_path'], null, function(data){
+        $('#repo-content').empty().append(data);
+    });
+  };
+
 };
 
 StudioConnectionsController.prototype.browse_repo = function(){
