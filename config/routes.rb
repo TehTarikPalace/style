@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       :as => "browse_repo", :constraints => { :path => /\/.+(?=\.html\z|\.template\z)/ }
     get 'repositories/:repo_name/history/:guid' => "studio_connections#history", :as => "object_history"
     get 'repositories/:repo_name/object/:guid' => "studio_connections#object_dump", :as => "object_browse"
+    get 'repositories/:repo_name/object_shape/:guid' => "studio_connections#object_shape", :as => "object_shape"
     get 'repositories/:repo_name/stats' => "studio_connections#repo_stats", :as => "repo_stats"
     get 'repositories/:repo_name/stats/:object' => "studio_connections#repo_object_stats", :as => "repo_object_stats"
     get 'repositories/:repo_name/conformity' => "studio_connections#conformity", :as => "conformity"

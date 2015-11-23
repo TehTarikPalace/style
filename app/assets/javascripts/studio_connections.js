@@ -10,6 +10,7 @@ StudioConnectionsController.prototype.show = function(){
 
       $('#loading-repo').hide();
       $('#repository-list').find('tbody').append(data);
+      $.bootstrapSortable(applyLast=true);
     });
 };
 

@@ -300,6 +300,30 @@ class StudioConnectionsController < ApplicationController
     end
   end
 
+  # GET    /studio_connections/:studio_connection_id/repositories/:repo_name/object_shape/:guid
+  # returns the info about the object shape in json format
+  def object_shape
+    sc = StudioConnection.find(params[:studio_connection_id])
+    result = sc.query("select entity_id, entity_tbl, shape from #{params[:repo_name]}.dbx_object where GUID = '#{params[:guid]}'").first
+
+    shape = Hash.new
+    shape[:ordinates] = result[:SHAPE].sdo_ordinates.instance_variable_get("@attributes").each_slice(4)
+
+    if result[:ENTITY_TBL] == 'DovPolylineSet' then
+      #find the polylines and push the real shape in
+      shapes = sc.query("select shape from #{params[:repo_name]}.dovpolyline where polylineset_id = #{result[:ENTITY_ID]}")
+      shape[:shape] = []
+
+      shapes[0..50].each do |polyline|
+        shape[:shape] << polyline[:SHAPE].sdo_ordinates.instance_variable_get("@attributes").each_slice(4)
+      end
+    end
+
+    respond_to do |format|
+      format.json { render json: shape  }
+    end
+  end
+
   private
 
   def studio_connection_params
