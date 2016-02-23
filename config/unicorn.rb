@@ -2,7 +2,17 @@
 worker_processes Integer(ENV["WEB_CONCURRENCY"] || 5)
 timeout 120
 preload_app true
-#
+
+app_path = File.expand_path(File.dirname(__FILE__) + '/..')
+
+#listen "/var/sockets/unicorn.problem.sock"
+listen app_path + "/tmp/unicorn.style.sock", backlog: 64
+
+pid "/tmp/unicorn.problem.pid"
+
+stderr_path "log/unicorn.log"
+stdout_path "log/unicorn.log"
+
 before_fork do |server, worker|
   Signal.trap 'TERM' do
     puts 'Unicorn master intercepting TERM and sending myself QUIT instead'
@@ -11,7 +21,7 @@ before_fork do |server, worker|
 
   defined?(ActiveRecord::Base) and
     ActiveRecord::Base.connection.disconnect!
-end 
+end
 
 after_fork do |server, worker|
   Signal.trap 'TERM' do

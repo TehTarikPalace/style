@@ -63,6 +63,9 @@ Rails.application.routes.draw do
   end
 
   resources :babylon_test, :only => [:index] do
+    collection do
+      get 'test'
+    end
   end
 
   #get 'settings' => "welcome#settings"

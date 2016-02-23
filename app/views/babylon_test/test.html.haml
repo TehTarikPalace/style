@@ -1,0 +1,4 @@
+- content_for :other_js do
+  = javascript_include_tag 'http://cdn.babylonjs.com/2-2/babylon.js'
+end
+%canvas#renderCanvas{ :style => "width:100%; height:85vh;" }

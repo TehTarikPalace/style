@@ -1,6 +1,3 @@
-- content_for :other_js do
-  = javascript_include_tag 'http://cdn.babylonjs.com/2-2/babylon.js'
-end
 %h1.page-header Babylon Test
 %p Surface in pspex > W_SARAWAKREGIONAL_MYS >  /input/Interpretation:RGN_SARAWAKREGIONAL_2015/hazwan_minhat/Surfaces/MMU (SURFACE)/MMU[T]_DW2C
 %table.table
@@ -31,4 +28,4 @@ end
 %p
   %img{ :src => "images/surface.png", :style => "width:100%;"}
 %p Now we got this:-
-%canvas#renderCanvas{ :style => "width:100%; height: 1024px;"}
+%p #{link_to "Test", test_babylon_test_index_path }
