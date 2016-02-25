@@ -60,3 +60,6 @@ lib/bundler/man/
 # Gemfile.lock
 # .ruby-version
 # .ruby-gemset
+
+#secret environment file
+.env
