@@ -23,10 +23,3 @@ Turbolinks.enableProgressBar();
 $(document).on('page:change', function(){
 		$.bootstrapSortable();
 });
-
-/*
-$(document).on('page:load', function(){
-	Paloma.executeHook();
-	Paloma.engine.start();
-});
-*/
