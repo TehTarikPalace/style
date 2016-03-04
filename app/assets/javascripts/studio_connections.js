@@ -22,6 +22,7 @@ StudioConnectionsController.prototype.show_repo = function(){
   } else {
     $.get(this.params['content_path'], null, function(data){
         $('#repo-content').empty().append(data);
+        $.bootstrapSortable(applyLast=true);
     });
   };
 
@@ -31,6 +32,7 @@ StudioConnectionsController.prototype.browse_repo = function(){
 
   $.get(this.params['content_path'], null, function(data){
       $('#repo-content').empty().append(data);
+      $.bootstrapSortable(applyLast=true);
   });
 
   $.get(this.params['history_path'], null, function(data){
@@ -39,6 +41,7 @@ StudioConnectionsController.prototype.browse_repo = function(){
 
   $.get(this.params['object_dump_path'], null, function(data){
     $('#object-info').empty().append(data);
+    $.bootstrapSortable(applyLast=true);
   });
 
 };
