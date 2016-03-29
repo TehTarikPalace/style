@@ -12,6 +12,8 @@
     %li
       %a{ :role => "presentation", :href => studio_connection_dashboard_path(params[:id]) } Dashboard
     %li
+      %a{ :role => "presentation", :href => "#" } Stats
+    %li
       %a{ :role => "presentation", :href => studio_connection_users_path(params[:id]) } Users
   #repository-list{ :data => {:'repo-id' => @connection.id }}
     .table-responsive
