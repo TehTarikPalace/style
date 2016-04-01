@@ -66,7 +66,12 @@ class StudioIndex < ActiveRecord::Base
 
       return dataEnvs
     end
+  end
 
+  #process from "//server/share/path/to/settings" to { :server => server, :share => share, :path => path}
+  def self.process_path path
+    path_reg = /\/\/(?<server>[[[:word:]].-]+)\/(?<share>[[:word:]]+)\/(?<path>[[:print:]]*\/{1})*/
+    path_validation = path_reg.match(path)
   end
 
 end

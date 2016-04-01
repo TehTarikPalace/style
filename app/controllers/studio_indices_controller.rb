@@ -5,17 +5,16 @@ class StudioIndicesController < ApplicationController
 
   def create
     #do some validation
-    path_reg = /\/\/(?<server>[[[:word:]].-]+)\/(?<share>[[:word:]]+)\/(?<path>[[:print:]]*\/{1})*/
-    path_validation = path_reg.match(params[:shared_path])
+    path_validation = StudioIndex.process_path(params[:shared_path])
     if path_validation.nil? then
       flash[:error] = "Path invalid"
       redirect_to :back
     else
-      #Rails.logger.info "valid_path = #{path_validation}"
-      studio_index = StudioIndex.new(studio_index_param)
-      studio_index.assign_attributes(:server => path_validation[:server], :share => path_validation[:share],
-        :path => path_validation[:path])
-
+      Rails.logger.info "the path = #{path_validation[:path]}"
+      studio_index = StudioIndex.new(:server => path_validation[:server], :share => path_validation[:share],
+        :path => path_validation[:path], :workgroup => params[:studio_index][:workgroup],
+        :username => params[:studio_index][:username], :password => params[:studio_index][:password]
+      )
 
       if studio_index.save! then
         flash[:notice] = "Shared index path created"
@@ -83,17 +82,16 @@ class StudioIndicesController < ApplicationController
 
   #  PATCH  /studio_indices/:id
   def update
-    path_reg = /\/\/(?<server>[[[:word:]].-]+)\/(?<share>[[:word:]]+)\/(?<path>[[:print:]]*\/{1})*/
-    path_validation = path_reg.match(params[:shared_path])
+    path_validation = StudioIndex.process_path(params[:shared_path])
 
     if path_validation.nil? then
       flash[:error] = "Path Invalid"
       redirect_to :back
     else
       studio_index = StudioIndex.find(params[:id])
-      studio_index.assign_attributes(studio_index_param)
       studio_index.assign_attributes(:server => path_validation[:server], :share => path_validation[:share],
-        :path => path_validation[:path])
+        :path => path_validation[:path], :workgroup => params[:studio_index][:workgroup],
+        :username => params[:studio_index][:password], :password => params[:studio_index][:password] )
 
       if studio_index.save! then
         flash[:notice] = "Index Updated"
@@ -103,7 +101,12 @@ class StudioIndicesController < ApplicationController
         redirect_to :back
       end
     end
+  end
 
+  #  DELETE /studio_indices/:id(.:format)
+  def destroy
+      StudioIndex.find(params[:id]).destroy
+      redirect_to indexes_settings_path
   end
 
   private
