@@ -10,7 +10,7 @@ class StudioIndex < ActiveRecord::Base
   end
 
   def full_path
-    "//#{server}/#{share}/#{path}"
+    "\\\\#{server}\\#{share}\\#{path}"
   end
 
   def dump_settings
@@ -69,8 +69,10 @@ class StudioIndex < ActiveRecord::Base
   end
 
   #process from "//server/share/path/to/settings" to { :server => server, :share => share, :path => path}
+  #also proces from "\\\\pcsb.epts.petronas.com.my\\expl_regional\\STUDIO\\Data Environment"
   def self.process_path path
-    path_reg = /\/\/(?<server>[[[:word:]].-]+)\/(?<share>[[:word:]]+)\/(?<path>[[:print:]]*\/{1})*/
+    #path_reg = /\/\/(?<server>[[[:word:]].-]+)\/(?<share>[[:word:]]+)\/(?<path>[[:print:]]*\/{1})*/
+    path_reg = /\\\\(?<server>[[[:alnum:]].-]+)\\(?<share>[[:word:]]+)\\(?<path>[[:print:]]*{1})/
     path_validation = path_reg.match(path)
   end
 

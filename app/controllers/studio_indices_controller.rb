@@ -13,7 +13,8 @@ class StudioIndicesController < ApplicationController
       Rails.logger.info "the path = #{path_validation[:path]}"
       studio_index = StudioIndex.new(:server => path_validation[:server], :share => path_validation[:share],
         :path => path_validation[:path], :workgroup => params[:studio_index][:workgroup],
-        :username => params[:studio_index][:username], :password => params[:studio_index][:password]
+        :username => params[:studio_index][:username], :password => params[:studio_index][:password],
+        :caption => params[:studio_index][:caption]
       )
 
       if studio_index.save! then
@@ -77,7 +78,7 @@ class StudioIndicesController < ApplicationController
 
   def edit
     @index = StudioIndex.find(params[:id])
-    @shared_path = "//#{@index.server}/#{@index.share}/#{@index.path}"
+    @shared_path = "\\\\#{@index.server}\\#{@index.share}\\#{@index.path}"
   end
 
   #  PATCH  /studio_indices/:id
@@ -91,7 +92,9 @@ class StudioIndicesController < ApplicationController
       studio_index = StudioIndex.find(params[:id])
       studio_index.assign_attributes(:server => path_validation[:server], :share => path_validation[:share],
         :path => path_validation[:path], :workgroup => params[:studio_index][:workgroup],
-        :username => params[:studio_index][:password], :password => params[:studio_index][:password] )
+        :username => params[:studio_index][:username], :password => params[:studio_index][:password],
+        :caption => params[:studio_index][:caption]
+       )
 
       if studio_index.save! then
         flash[:notice] = "Index Updated"
