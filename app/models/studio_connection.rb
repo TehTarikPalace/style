@@ -262,5 +262,69 @@ class StudioConnection < ActiveRecord::Base
     end
   end
 
+  # an array of {
+  #  :project => project_name, :model_version => version, :owner => project_owner, :create_date => date
+  #  :modify_date => date, :crs => code:name
+  # }
+  def list_repo user
+    #if user is admin. display everything
+    dd = self.query("select max(username) as username from dba_users where username like 'SKS_DD_%'").first[:USERNAME]
+    if self.user_is_admin?(user) then
+      return self.query("select
+        project, model_version, owner, create_date, modify_date, coordinate_system||':'||name as coordinate_system
+        from
+        sks_sys.sds_project,
+        #{dd}.r_coordinate_ref_system
+        where
+         coordinate_system = code
+        order by project")
+    else
+      #otherwise, just display what is entitled
+      credential = user.user_credentials.where(:studio_connection_id => self.id).first
+      if credential.nil? || credential.username.empty? || credential.username.nil? then
+        return []
+      else
+        return self.query("select
+          project.project, project.model_version, project.owner,
+          project.create_date, project.modify_date,
+          project.coordinate_system||':'||crs.name as coordinate_system
+          from
+          sks_sys.sds_project project,
+          sks_sys.sds_pipe pipe,
+          #{dd}.r_coordinate_ref_system crs
+          where
+           project.coordinate_system = crs.code
+           and pipe.sds_user = '#{user.username.upcase}'
+           and project.project = pipe.account
+          order by project")
+      end
+    end
+  end
+
+  #check if user got Admin_All privilege in studio
+  def user_is_admin? user
+    #check if got credentials
+    if user.admin? then
+      return true
+    end
+
+    #user is not style admin. check if user got all_admin privs in studio
+    # check credentials
+    user_cred = user.user_credentials.where(:studio_connection_id => self.id).first
+    if user_cred.nil? || user_cred.username.empty? || user_cred.username.nil? then
+      return false
+    else
+      #check the credentials privs
+      result = self.query("select privilege from sks_sys.sds_user where privilege = 'Admin_All' and account = '#{user_cred.username.upcase}'")
+      if result.nil? then
+        return false
+      else
+        return true
+      end
+    end
+
+
+  end
+
   private :list_obj, :get_guid_traverse
 end

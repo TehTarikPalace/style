@@ -8,14 +8,18 @@
         %th Email
         %th Created
     %tbody
-      - @users.each do |user|
+      - if @connection.user_is_admin? current_user then
+        - @users.each do |user|
+          %tr
+            %td
+              %a{ :href => "##{user[:ACCOUNT]}", :data => { :toggle => 'collapse'}, :role => 'button'}
+                %i.fa.fa-toggle-down
+            %td #{ user[:ACCOUNT] }
+            %td #{ user[:FIRST_NAME]} #{ user[:LAST_NAME]}
+            %td #{ user[:EMAIL_ADDRESS]}
+            %td #{ user[:CREATE_DATE]}
+          %tr.collapse{ :id => user[:ACCOUNT] ,
+            :data => { :load => studio_connection_user_path(params[:studio_connection_id], user[:ACCOUNT], :format => 'template')} }
+      - else
         %tr
-          %td
-            %a{ :href => "##{user[:ACCOUNT]}", :data => { :toggle => 'collapse'}, :role => 'button'}
-              %i.fa.fa-toggle-down
-          %td #{ user[:ACCOUNT] }
-          %td #{ user[:FIRST_NAME]} #{ user[:LAST_NAME]}
-          %td #{ user[:EMAIL_ADDRESS]}
-          %td #{ user[:CREATE_DATE]}
-        %tr.collapse{ :id => user[:ACCOUNT] ,
-          :data => { :load => studio_connection_user_path(params[:studio_connection_id], user[:ACCOUNT], :format => 'template')} }
+          %td{:colspan => 5} You don't have permission to see the user list

@@ -36,38 +36,10 @@ class StudioConnectionsController < ApplicationController
   #  GET    /studio_connections/:id
   # always template
   def repositories
-    conn = StudioConnection.find(params[:studio_connection_id])
-    dd = conn.query("select max(username) as username from dba_users where username like 'SKS_DD_%'").
-      first[:USERNAME]
-    if current_user.admin? || current_user.username == ENV["default_admin"] then
-      @repositories = conn.query("select
-        project, model_version, owner, create_date, modify_date, coordinate_system||':'||name as coordinate_system
-        from
-        sks_sys.sds_project,
-        #{dd}.r_coordinate_ref_system
-        where
-         coordinate_system = code
-        order by project")
-    else
-      #get current credential
-      credential = current_user.user_credentials.where(:studio_connection_id => params[:studio_connection_id]).first
-      if credential.nil? then
-        @repositories = []
-      else
-        @repositories = conn.query("select
-          project.project, project.model_version, project.owner,
-          project.create_date, project.modify_date,
-          project.coordinate_system||':'||crs.name as coordinate_system
-          from
-          sks_sys.sds_project project,
-          sks_sys.sds_pipe pipe,
-          #{dd}.r_coordinate_ref_system crs
-          where
-           project.coordinate_system = crs.code
-           and pipe.sds_user = '#{credential.username.upcase}'
-           and project.project = pipe.account
-          order by project")
-      end
+    @repositories = StudioConnection.find(params[:studio_connection_id]).list_repo current_user
+
+    respond_to do |format|
+      format.template
     end
   end
 
@@ -245,7 +217,11 @@ class StudioConnectionsController < ApplicationController
   #  GET    /studio_connections/:studio_connection_id/users(.:format)
   def users
     @connection = StudioConnection.find(params[:studio_connection_id])
-    @users = @connection.query "select account, create_date, first_name, last_name, email_address from sks_sys.sds_user"
+    if @connection.user_is_admin? current_user then
+      @users = @connection.query "select account, create_date, first_name, last_name, email_address from sks_sys.sds_user"
+    else
+      @users = []
+    end
   end
 
   #  GET    /studio_connections/:studio_connection_id/users/:username
