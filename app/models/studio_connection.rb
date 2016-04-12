@@ -267,6 +267,12 @@ class StudioConnection < ActiveRecord::Base
   #  :modify_date => date, :crs => code:name
   # }
   def list_repo user
+    #check if user is valid
+    if !self.login_valid?(user) then
+      return []
+    end
+
+    #user is valid, start check if user is admin, or got access to certain stuff only
     #if user is admin. display everything
     dd = self.query("select max(username) as username from dba_users where username like 'SKS_DD_%'").first[:USERNAME]
     if self.user_is_admin?(user) then
