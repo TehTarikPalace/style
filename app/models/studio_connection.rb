@@ -250,7 +250,7 @@ class StudioConnection < ActiveRecord::Base
     if current_user.nil? then
       return false
     else
-      if current_user.admin? || current_user.username == ENV['default_admin'] then
+      if self.user_is_admin?(current_user) || current_user.admin? || current_user.username == ENV['default_admin'] then
         return true
       else
         credential = current_user.user_credentials.where(:studio_connection_id => self.id).first
@@ -294,7 +294,7 @@ class StudioConnection < ActiveRecord::Base
           #{dd}.r_coordinate_ref_system crs
           where
            project.coordinate_system = crs.code
-           and pipe.sds_user = '#{user.username.upcase}'
+           and pipe.sds_user = '#{credential.username.upcase}'
            and project.project = pipe.account
           order by project")
       end
@@ -315,15 +315,32 @@ class StudioConnection < ActiveRecord::Base
       return false
     else
       #check the credentials privs
+      if !self.login_valid?(user) then
+        return false
+      end
+
+      #check if using sks_admin
+      if user_cred.username.upcase == "SKS_ADMIN" then
+        return true
+      end
+
       result = self.query("select privilege from sks_sys.sds_user where privilege = 'Admin_All' and account = '#{user_cred.username.upcase}'")
-      if result.nil? then
+      if result.empty? then
         return false
       else
         return true
       end
     end
+  end
 
-
+  def login_valid? user
+    cred = user.user_credentials.where(:studio_connection_id => self.id).first
+    begin
+      oracle = OCI8.new(cred.username, cred.password,"//#{self.oracle_host}:#{self.port}/#{self.oracle_instance}")
+    rescue OCIError
+      return false
+    end
+    return true
   end
 
   private :list_obj, :get_guid_traverse

@@ -263,7 +263,12 @@ class StudioConnectionsController < ApplicationController
   # get dashbaord values
   def dashboard
     @connection = StudioConnection.find(params[:studio_connection_id])
-    @dashboard = @connection.dashboard
+
+    if @connection.user_is_admin? current_user then
+      @dashboard = @connection.dashboard
+    else
+      render :status => :unauthorized
+    end
   end
 
   # GET    /studio_connections/:studio_connection_id/dashboard/query/:query_id
