@@ -1,0 +1,6 @@
+[Unit]
+StopWhenUnneeded=true
+Wants=style-web.target
+
+[Install]
+WantedBy=multi-user.target

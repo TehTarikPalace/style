@@ -63,3 +63,6 @@ lib/bundler/man/
 
 #secret environment file
 .env
+
+#production inittab / systemd settings
+bin/systemd/*.service

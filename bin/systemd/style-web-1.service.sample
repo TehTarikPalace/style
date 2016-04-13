@@ -1,0 +1,21 @@
+[Unit]
+StopWhenUnneeded=true
+
+[Service]
+User=<user here>
+WorkingDirectory=<style install dir>
+Environment=DEVISE_LDAP_HOST=<ldap host>
+Environment=DEVISE_LDAP_DOMAINS=<ldap domain in { "text" => "domain name" } format>
+Environment=DEVISE_LDAP_BASE=<ldap base in DC=EXAMPLE,DC=COM format>
+Environment=DEFAULT_ADMIN=<default admin AD id >
+Environment=NETWORK_PORT=<what port to use>
+Environment=NETWORK_HOST=<server name or ip address>
+Environment=EMAIL_REPLY_ADDRESS=<email reply address>
+Environment=SECRET_KEY_BASE=<results from rake secret>
+ExecStart=/bin/bash -lc 'bundle exec unicorn_rails -c ./config/unicorn.rb'
+Restart=always
+StandardInput=null
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=%n
+KillMode=process
