@@ -250,7 +250,7 @@ class StudioConnection < ActiveRecord::Base
     if current_user.nil? then
       return false
     else
-      if self.user_is_admin?(current_user) || current_user.admin? || current_user.username == ENV['default_admin'] then
+      if self.user_is_admin?(current_user) || current_user.admin? || current_user.username == ENV['DEFAULT_ADMIN'] then
         return true
       else
         credential = current_user.user_credentials.where(:studio_connection_id => self.id).first
@@ -340,6 +340,10 @@ class StudioConnection < ActiveRecord::Base
   end
 
   def login_valid? user
+    #admin user uses
+    if user.admin? then
+      return true
+    end
     cred = user.user_credentials.where(:studio_connection_id => self.id).first
     begin
       oracle = OCI8.new(cred.username, cred.password,"//#{self.oracle_host}:#{self.port}/#{self.oracle_instance}")

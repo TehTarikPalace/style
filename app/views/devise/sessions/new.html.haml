@@ -5,7 +5,7 @@
 			%fieldset
 				.form-group
 					= f.label :domain
-					= select_tag "user[domain]", options_for_select(eval(ENV['devise_ldap_domains']) ), :class =>'form-control'
+					= select_tag "user[domain]", options_for_select([ENV['DEVISE_LDAP_DOMAINS']] ), :class =>'form-control'
 				.from-group
 					= f.label :username
 					= f.text_field :username, autofocus: true , :placeholder => "Your Username", :class =>'form-control'

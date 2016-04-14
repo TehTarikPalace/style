@@ -3,9 +3,9 @@ module StoredLDAP
 
 	def self.new_connection username, password
 		ldap = Net::LDAP.new
-		ldap.host = ENV['devise_ldap_host']
+		ldap.host = ENV['DEVISE_LDAP_HOST']
 		ldap.port =  636
-		ldap.base = ENV['devise_ldap_base']
+		ldap.base = ENV['DEVISE_LDAP_BASE']
 		ldap.encryption :simple_tls
 		ldap.auth username, password
 		ldap.bind
@@ -34,7 +34,7 @@ module StoredLDAP
 		#email = Net::LDAP::Filter.begins('mail', query)
 
 		return ldap.search(
-			:base => ENV['devise_ldap_base'], :filter => (displayname | mail ) & mustperson
+			:base => ENV['DEVISE_LDAP_BASE'], :filter => (displayname | mail ) & mustperson
 		).map{ |x|
 			{
 				:displayname => x[:displayname], :samaccountname => x[:samaccountname],
