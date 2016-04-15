@@ -4,6 +4,7 @@ StopWhenUnneeded=true
 [Service]
 User=<user here>
 WorkingDirectory=<style install dir>
+Environment=RAILS_ENV=<rails env>
 Environment=DEVISE_LDAP_HOST=<ldap host>
 Environment=DEVISE_LDAP_DOMAINS=<ldap domain in { "text" => "domain name" } format>
 Environment=DEVISE_LDAP_BASE=<ldap base in DC=EXAMPLE,DC=COM format>
