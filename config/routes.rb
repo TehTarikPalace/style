@@ -1,4 +1,4 @@
-Rails.application.routes.draw do
+     Rails.application.routes.draw do
   devise_for :users, :controllers => { :sessions => 'users/sessions'}
   resources :users, :only => [:new] do
     collection do
@@ -20,12 +20,12 @@ Rails.application.routes.draw do
     get 'dashboard'
     get 'dashboard/query/:query_id' => "studio_connections#dash_query", :as => "dash_query"
     get 'repositories/:repo_name' => "studio_connections#show_repo", :as => "show_repo"
-    get 'repositories/:repo_name/input:path' =>"studio_connections#browse_repo",
-      :as => "browse_repo", :constraints => { :path => /\/.+(?=\.html\z|\.template\z)/ }
+    get 'repositories/:repo_name/input:path' =>"studio_connections#browse_repo", :as => "browse_repo", :constraints => { :path => /\/.+(?=\.html\z|\.template\z)/ }
     get 'repositories/:repo_name/history/:guid' => "studio_connections#history", :as => "object_history"
     get 'repositories/:repo_name/object/:guid' => "studio_connections#object_dump", :as => "object_browse"
     get 'repositories/:repo_name/object_shape/:guid' => "studio_connections#object_shape", :as => "object_shape"
     get 'repositories/:repo_name/stats' => "studio_connections#repo_stats", :as => "repo_stats"
+    get 'model_version' => "studio_connections#version_stats", :as => "version_stats" #under_testing-----------------------------------------------------------------
     get 'repositories/:repo_name/stats/:object' => "studio_connections#repo_object_stats", :as => "repo_object_stats"
     get 'repositories/:repo_name/conformity' => "studio_connections#conformity", :as => "conformity"
     get 'repositories/:repo_name/users' => "studio_connections#repo_users", :as => "repo_users"

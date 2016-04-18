@@ -46,6 +46,7 @@ StudioConnectionsController.prototype.browse_repo = function(){
 
 };
 
+//************** repository statistics ********************//
 StudioConnectionsController.prototype.repo_stats = function(){
   console.log("stats: " + this.params['stats'][0].ENTITY);
   var data_array = [];
@@ -145,6 +146,8 @@ StudioConnectionsController.prototype.repo_object_stats = function(){
   });
 };
 
+//*************** end repository statistics *************************//
+
 StudioConnectionsController.prototype.conformity = function(){
   //load the actual report
   $.get(window.location.pathname + ".template", null, function(data){
@@ -173,3 +176,57 @@ StudioConnectionsController.prototype.dashboard = function(){
     });
   });
 };
+
+//************** MODEL_VERSION statistics ********************//
+
+StudioConnectionsController.prototype.version_stats = function(){
+  var model_array = [];
+  $.each( this.params['ver_stats'], function(index, value){
+      model_array.push( [(value.MODEL_VERSION), parseInt(value.MODEL_COUNT)] );
+  });
+
+  Highcharts.setOptions({
+      global: { useUTC:false}
+  });
+
+  $('#version-stat-graph').highcharts({
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie',
+        events: {
+          load: function(){
+            console.log("load data here");
+          }
+        }
+    },
+    title: {
+        text: 'Model Version'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.y:.0f}</b>'
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.y:.0f}',
+                style: {
+                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                }
+            }
+        }
+    },
+    series: [{
+        name: 'Model Year',
+        colorByPoint: true,
+        data: model_array
+      }]
+
+  });
+};
+
+//*************** end MODEL_VERSION statistics *************************/

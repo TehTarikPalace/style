@@ -200,7 +200,7 @@ class StudioConnectionsController < ApplicationController
     end
 
   end
-
+#-----------------------------------------------------------------------KIV---------------------------------------------------
   # GET    /studio_connections/:studio_connection_id/stats/:repo_name/:object
   def repo_object_stats
     sc = StudioConnection.find(params[:studio_connection_id])
@@ -210,6 +210,19 @@ class StudioConnectionsController < ApplicationController
     @header_info = StatHeader.lookup params[:object]
     js :stats => @results
   end
+#-------------------------------------------------------------------------KIV------------------------------------------------
+
+#-----------------------------------------------------------------------under_testing---------------------------------------------------
+  def version_stats
+    sc = StudioConnection.find(params[:studio_connection_id])
+    @result_ver = sc.query"select model_version, count(*) as model_count
+          from sks_sys.sds_project
+          group by model_version"
+    js :ver_stats => @result_ver
+  end
+
+  # order by project
+#-------------------------------------------------------------------------under_testing------------------------------------------------
 
   #  DELETE /studio_connections/:id
   def destroy
