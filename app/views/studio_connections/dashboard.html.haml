@@ -9,6 +9,8 @@
   %ul.nav.nav-tabs.nav-justified
     %li
       %a{ :role => "presentation", :href => studio_connection_path(params[:studio_connection_id]) } Repositories
+    %li
+      %a{ :role => "presentation", :href => studio_connection_version_stats_path(params[:studio_connection_id]) } Model Version
     %li.active
       %a{ :role => "presentation", :href => studio_connection_dashboard_path(params[:studio_connection_id]) } Dashboard
     %li
