@@ -191,6 +191,9 @@ class StudioConnectionsController < ApplicationController
           from sks_sys.sds_project
           group by model_version"
     js :ver_stats => @result_ver
+    
+    @result_ver_count = sc.query"select count(model_version) as total_count
+            from sks_sys.sds_project"
   end
 
   # order by project
