@@ -29,3 +29,9 @@
               %i.fa.fa-toggle-down
           %td #{ line[:MODEL_VERSION]}
           %td #{ line[:MODEL_COUNT].to_i}
+      - @result_ver_count.each do |line2|
+        %tr
+          %td
+          %td 
+            %strong Total
+          %td #{ line2[:TOTAL_COUNT].to_i}
