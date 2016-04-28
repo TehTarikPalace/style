@@ -1,0 +1,9 @@
+%ul.nav.nav-tabs.nav-justified
+  %li{ :class => active == "repo" ? "active" : "" }
+    %a{ :role => "presentation", :href => studio_connection_path(params[:studio_connection_id]) } Repositories
+  %li{ :class => active == "model-version" ? "active" : "" }
+    %a{ :role => "presentation", :href => studio_connection_version_stats_path(params[:studio_connection_id]) } Model Version
+  %li{ :class => active == "dashboard" ? "active" : "" }
+    %a{ :role => "presentation", :href => studio_connection_dashboard_path(params[:studio_connection_id]) } Dashboard
+  %li{ :class => active == "users" ? "active" : "" }
+    %a{ :role => "presentation", :href => studio_connection_users_path(params[:studio_connection_id]) } Users

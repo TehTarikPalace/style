@@ -3,18 +3,9 @@
   %ol.breadcrumb
     %li.active
       #{StudioConnection.find(params[:studio_connection_id]).oracle_instance}
-  %ul.nav.nav-tabs.nav-justified
-    %li
-      %a{ :role => "presentation", :href => studio_connection_path(params[:studio_connection_id]) } Repositories
-    %li.active
-      %a{ :role => "presentation", :href => studio_connection_version_stats_path(params[:studio_connection_id]) } Model Version
-    %li
-      %a{ :role => "presentation", :href => studio_connection_dashboard_path(params[:studio_connection_id]) } Dashboard
-    %li
-      %a{ :role => "presentation", :href => studio_connection_users_path(params[:studio_connection_id]) } Users
+= render :template => "studio_connections/browse_header.template", :locals => { :active => "model-version"}
 
   %div#version-stat-graph
-
   %table.table.table-responsive
     %thead
       %tr
