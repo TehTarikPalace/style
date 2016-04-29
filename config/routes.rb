@@ -25,7 +25,7 @@
     get 'repositories/:repo_name/object/:guid' => "studio_connections#object_dump", :as => "object_browse"
     get 'repositories/:repo_name/object_shape/:guid' => "studio_connections#object_shape", :as => "object_shape"
     get 'repositories/:repo_name/stats' => "studio_connections#repo_stats", :as => "repo_stats"
-    get 'model_version' => "studio_connections#version_stats", :as => "version_stats" #under_testing-----------------------------------------------------------------
+    get 'model_version' => "studio_connections#version_stats", :as => "version_stats" #-------------------------------------------------------------MODEL_VERSION
     get 'repositories/:repo_name/stats/:object' => "studio_connections#repo_object_stats", :as => "repo_object_stats"
     get 'repositories/:repo_name/conformity' => "studio_connections#conformity", :as => "conformity"
     get 'repositories/:repo_name/users' => "studio_connections#repo_users", :as => "repo_users"
