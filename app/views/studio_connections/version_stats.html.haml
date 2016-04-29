@@ -3,7 +3,7 @@
   %ol.breadcrumb
     %li.active
       #{StudioConnection.find(params[:studio_connection_id]).oracle_instance}
-= render :template => "studio_connections/browse_header.template", :locals => { :active => "model-version"}
+  = render :template => "studio_connections/browse_header.template", :locals => { :active => "model-version"}
 
   %div#version-stat-graph
   %table.table.table-responsive
