@@ -4,8 +4,8 @@
     %li.active
       #{StudioConnection.find(params[:studio_connection_id]).oracle_instance}
 = render :template => "studio_connections/browse_header.template", :locals => { :active => "model-version"}
-
-  %div#version-stat-graph
+#version-stat-graph
+%div
   %table.table.table-responsive
     %thead
       %tr
