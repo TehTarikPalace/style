@@ -3,9 +3,15 @@
   %ol.breadcrumb
     %li.active
       #{StudioConnection.find(params[:studio_connection_id]).oracle_instance}
+<<<<<<< HEAD
 = render :template => "studio_connections/browse_header.template", :locals => { :active => "model-version"}
 #version-stat-graph
 %div
+=======
+  = render :template => "studio_connections/browse_header.template", :locals => { :active => "model-version"}
+
+  %div#version-stat-graph
+>>>>>>> refs/remotes/origin/erwinkarim
   %table.table.table-responsive
     %thead
       %tr

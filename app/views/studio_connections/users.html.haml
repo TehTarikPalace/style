@@ -6,6 +6,7 @@
   %ol.breadcrumb
     %li.active
       #{StudioConnection.find(params[:studio_connection_id]).oracle_instance}
+<<<<<<< HEAD
   %ul.nav.nav-tabs.nav-justified
     %li
       %a{ :role => "presentation", :href => studio_connection_path(params[:studio_connection_id]) } Repositories
@@ -15,4 +16,7 @@
       %a{ :role => "presentation", :href => studio_connection_dashboard_path(params[:studio_connection_id]) } Dashboard
     %li.active
       %a{ :role => "presentation", :href => studio_connection_users_path(params[:studio_connection_id]) } Users
+=======
+  = render :template => "studio_connections/browse_header.template", :locals => { :active => "users"}
+>>>>>>> refs/remotes/origin/erwinkarim
   = render :template => "studio_connections/users.template", :locals => { :'@users' => @users}
